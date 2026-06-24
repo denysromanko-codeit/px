@@ -1837,6 +1837,43 @@ body {
 .mp-type.assisted-living { background: #F5F3FF; color: #6D28D9; }
 .mp-type.skilled-nursing { background: #ECFDF5; color: #065F46; }
 
+/* ── ALERT RESOLUTION SPEED — redesigned ── */
+.ars-top { display:flex; gap:20px; align-items:center; margin-bottom:14px; }
+.ars-big-num { font-size:36px; font-weight:800; color:var(--green); line-height:1; }
+.ars-big-num span { font-size:15px; font-weight:500; color:var(--g500); }
+.ars-big-lbl { font-size:11px; color:var(--g400); margin-top:3px; }
+.ars-summary { display:flex; gap:16px; flex:1; }
+.ars-summary-item { display:flex; flex-direction:column; gap:2px; }
+.ars-summary-val { font-size:18px; font-weight:700; color:var(--g800); }
+.ars-summary-lbl { font-size:10px; color:var(--g400); white-space:nowrap; }
+
+.ars-states { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+.ars-state { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:8px; background:var(--g50); }
+.ars-state-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.ars-state-dot.green  { background:var(--green); }
+.ars-state-dot.amber  { background:var(--amber); }
+.ars-state-dot.red    { background:var(--red); }
+.ars-state-info { flex:1; min-width:0; }
+.ars-state-label { font-size:12px; font-weight:600; color:var(--g800); }
+.ars-state-sub   { font-size:10px; color:var(--g400); margin-top:1px; }
+.ars-state-val   { font-size:13px; font-weight:700; white-space:nowrap; }
+.ars-state-val span { font-size:11px; font-weight:400; margin-left:4px; }
+.ars-state-val.green { color:var(--green); }
+.ars-state-val.amber { color:var(--amber); }
+.ars-state-val.red   { color:var(--red); }
+
+.ars-bar { display:flex; height:6px; border-radius:99px; overflow:hidden; margin-bottom:14px; gap:2px; }
+.ars-bar > div { height:100%; }
+
+.ars-section-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--g400); margin-bottom:8px; }
+.ars-timeline { display:flex; gap:4px; align-items:flex-end; height:52px; }
+.ars-tl-col { display:flex; flex-direction:column; align-items:center; gap:3px; flex:1; height:100%; justify-content:flex-end; }
+.ars-tl-bar { width:100%; border-radius:3px 3px 0 0; background:var(--blue); opacity:.7; min-height:3px; transition:opacity .15s; }
+.ars-tl-bar.peak { opacity:1; background:var(--green); }
+.ars-tl-bar.low  { opacity:.45; }
+.ars-tl-lbl { font-size:9px; color:var(--g400); white-space:nowrap; }
+.ars-tl-col:hover .ars-tl-bar { opacity:1; }
+
 /* ═══════════════════════════════════════════
    NEW PATIENT MODAL — 3-step wizard
 ═══════════════════════════════════════════ */
@@ -2049,6 +2086,329 @@ select.np-input { cursor:pointer; }
 }
 .np-btn-primary:hover { background:var(--blue-700); }
 .np-btn-primary.success { background:var(--green); }
+.np-btn-primary:disabled, .np-btn-primary[disabled] {
+  background:var(--g200); color:var(--g400); cursor:not-allowed;
+}
+.np-btn-primary:disabled:hover { background:var(--g200); }
+
+/* ══ Temporary Patient Coverage ══ */
+.ta-quick-link {
+  display:none; align-items:center; gap:6px;
+  padding:8px 14px; border-radius:8px;
+  border:1.5px solid var(--blue-100); background:var(--blue-50);
+  color:var(--blue-700); font-size:12.5px; font-weight:600;
+  cursor:pointer; transition:all .12s; white-space:nowrap;
+}
+.ta-quick-link:hover { background:var(--blue-100); border-color:var(--blue); }
+.ta-quick-link.show { display:inline-flex; }
+.ta-quick-link svg { flex-shrink:0; }
+
+.ta-modal {
+  background:#fff; border-radius:14px;
+  width:640px; max-width:calc(100vw - 32px);
+  max-height:92vh; display:flex; flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,.18), 0 4px 16px rgba(0,0,0,.1);
+  animation:np-slide-up .2s cubic-bezier(.16,1,.3,1);
+}
+.ta-header { display:flex; align-items:flex-start; justify-content:space-between; padding:20px 24px 0; gap:12px; }
+.ta-title { font-size:17px; font-weight:700; color:var(--g900); margin:0 0 3px; }
+.ta-sub { font-size:12.5px; color:var(--g500); margin:0; line-height:1.45; }
+.ta-body { padding:18px 24px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:18px; }
+
+.ta-block { display:flex; flex-direction:column; gap:9px; }
+.ta-block-hdr { display:flex; align-items:center; gap:8px; }
+.ta-block-num {
+  width:20px; height:20px; border-radius:50%;
+  background:var(--g900); color:#fff; font-size:11px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.ta-block.disabled .ta-block-num { background:var(--g300); }
+.ta-block-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--g700); }
+.ta-block-hint { font-size:11px; color:var(--g400); font-weight:500; margin-left:auto; }
+
+/* Combobox */
+.ta-combo { position:relative; }
+.ta-combo-input {
+  border:1.5px solid var(--g200); border-radius:8px;
+  padding:9px 12px; font-size:13px; color:var(--g800);
+  background:#fff; outline:none; width:100%; box-sizing:border-box;
+  transition:border-color .12s, box-shadow .12s; font-family:inherit;
+}
+.ta-combo-input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+.ta-combo-input::placeholder { color:var(--g300); }
+.ta-combo-input:disabled { background:var(--g50); color:var(--g400); cursor:not-allowed; }
+.ta-combo-list {
+  position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:50;
+  background:#fff; border:1px solid var(--g200); border-radius:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12); max-height:240px; overflow-y:auto;
+  display:none; padding:4px;
+}
+.ta-combo-list.open { display:block; }
+.ta-combo-opt {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:8px 10px; border-radius:6px; cursor:pointer; font-size:13px; color:var(--g800);
+}
+.ta-combo-opt:hover { background:var(--g50); }
+.ta-combo-opt.disabled { opacity:.5; cursor:not-allowed; }
+.ta-combo-opt.disabled:hover { background:none; }
+.ta-opt-left { display:flex; align-items:center; gap:9px; min-width:0; }
+.ta-opt-name { font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ta-opt-meta { font-size:11px; color:var(--g400); font-weight:500; white-space:nowrap; }
+.ta-opt-badge { font-size:9px; font-weight:700; padding:1px 6px; border-radius:99px; text-transform:uppercase; letter-spacing:.04em; }
+.ta-opt-badge.covered { background:#FEF3C7; color:#92400E; }
+.ta-combo-empty { padding:12px; font-size:12px; color:var(--g400); text-align:center; }
+
+/* Selected source card */
+.ta-source-card {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; background:var(--g50); border:1px solid var(--g100);
+  border-radius:9px;
+}
+.ta-avatar {
+  width:34px; height:34px; border-radius:50%; flex-shrink:0;
+  background:var(--blue); color:#fff; font-size:12px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.ta-avatar.alt { background:var(--purple, #8B5CF6); }
+.ta-source-info { display:flex; flex-direction:column; gap:1px; flex:1; min-width:0; }
+.ta-source-name { font-size:13px; font-weight:600; color:var(--g900); }
+.ta-source-sub { font-size:11px; color:var(--g500); }
+.ta-source-clear { background:none; border:none; color:var(--g400); cursor:pointer; font-size:17px; line-height:1; padding:4px; }
+.ta-source-clear:hover { color:var(--g700); }
+
+/* Destination chips */
+.ta-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.ta-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--blue-50); color:var(--blue-700);
+  border:1px solid #BFDBFE; border-radius:99px;
+  padding:4px 6px 4px 11px; font-size:12px; font-weight:600;
+}
+.ta-chip-cap { font-size:10px; font-weight:500; color:var(--blue-600); opacity:.85; }
+.ta-chip-cap.over { color:var(--amber); }
+.ta-chip-x { background:none; border:none; color:var(--blue-700); cursor:pointer; font-size:14px; line-height:1; padding:0 2px; opacity:.7; display:flex; }
+.ta-chip-x:hover { opacity:1; }
+
+/* Date range */
+.ta-daterow { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.ta-date-field { display:flex; flex-direction:column; gap:5px; }
+.ta-date-field > label { font-size:11px; font-weight:600; color:var(--g500); text-transform:uppercase; letter-spacing:.05em; }
+.ta-date-inputs { display:flex; gap:6px; }
+.ta-date-inputs input { border:1.5px solid var(--g200); border-radius:8px; padding:8px 10px; font-size:12.5px; color:var(--g800); font-family:inherit; outline:none; box-sizing:border-box; }
+.ta-date-inputs input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+.ta-date-inputs input[type=date] { flex:1; min-width:0; }
+.ta-date-inputs input[type=time] { width:92px; }
+.ta-date-err { font-size:11px; color:var(--red); font-weight:600; }
+
+/* Patients to cover */
+.ta-patients { border:1px solid var(--g100); border-radius:10px; overflow:hidden; }
+.ta-pat-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:9px 14px; background:var(--g50); border-bottom:1px solid var(--g100);
+}
+.ta-pat-bar-title { font-size:11.5px; font-weight:700; color:var(--g600); text-transform:uppercase; letter-spacing:.04em; }
+.ta-pat-distribute { font-size:11.5px; font-weight:600; color:var(--blue); background:none; border:none; cursor:pointer; padding:0; }
+.ta-pat-distribute:hover { text-decoration:underline; }
+.ta-single-note {
+  display:flex; align-items:center; gap:8px;
+  padding:12px 14px; font-size:12.5px; color:var(--g600); line-height:1.45;
+}
+.ta-single-note strong { color:var(--g900); }
+.ta-single-note svg { flex-shrink:0; color:var(--blue); }
+.ta-pat-list { max-height:230px; overflow-y:auto; }
+.ta-pat-row {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 14px; border-bottom:1px solid var(--g50); font-size:12.5px;
+}
+.ta-pat-row:last-child { border-bottom:none; }
+.ta-pat-meta { flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; }
+.ta-pat-name { color:var(--g800); font-weight:600; }
+.ta-pat-addr { font-size:11px; color:var(--g400); font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ta-assignee-select {
+  border:1.5px solid var(--g200); border-radius:7px; padding:6px 8px;
+  font-size:12px; color:var(--g700); background:#fff; cursor:pointer;
+  font-family:inherit; outline:none; max-width:190px; flex-shrink:0;
+}
+.ta-assignee-select:focus { border-color:var(--blue); }
+.ta-empty-hint { padding:22px 18px; text-align:center; font-size:12.5px; color:var(--g400); line-height:1.5; }
+
+/* TEMP tag */
+.temp-tag {
+  display:inline-flex; align-items:center; gap:3px;
+  background:#FEF3C7; color:#92400E; border:1px solid #FDE68A;
+  font-size:9px; font-weight:800; letter-spacing:.05em;
+  padding:1px 5px 1px 4px; border-radius:4px; vertical-align:middle;
+  margin-left:6px; text-transform:uppercase; line-height:1.4;
+}
+.temp-tag::before { content:''; width:5px; height:5px; border-radius:50%; background:#F59E0B; flex-shrink:0; }
+
+/* Toast */
+.ta-toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:var(--g900); color:#fff; padding:12px 18px; border-radius:10px;
+  font-size:13px; font-weight:500; box-shadow:0 8px 28px rgba(0,0,0,.25);
+  display:flex; align-items:center; gap:10px; z-index:10000;
+  opacity:0; transition:transform .3s cubic-bezier(.16,1,.3,1), opacity .3s;
+  max-width:90vw; pointer-events:none;
+}
+.ta-toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+.ta-toast-icon { color:#34D399; flex-shrink:0; }
+
+/* Source patient summary + expandable list */
+.ta-pat-summary {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:9px 12px; margin-top:8px;
+  border:1px solid var(--g100); border-radius:9px; background:#fff;
+}
+.ta-pat-summary-left { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--g700); font-weight:600; }
+.ta-pat-summary-left svg { color:var(--g400); flex-shrink:0; }
+.ta-pat-expand-btn {
+  display:flex; align-items:center; gap:5px;
+  background:none; border:none; color:var(--blue); font-size:12px; font-weight:600;
+  cursor:pointer; padding:2px 4px;
+}
+.ta-pat-expand-btn svg { transition:transform .2s; }
+.ta-pat-expand-btn.open svg { transform:rotate(180deg); }
+.ta-pat-expand { display:none; margin-top:6px; border:1px solid var(--g100); border-radius:9px; overflow:hidden; }
+.ta-pat-expand.open { display:block; }
+.ta-pat-elist { max-height:200px; overflow-y:auto; }
+.ta-pat-erow {
+  display:flex; align-items:center; gap:9px; padding:8px 12px;
+  border-bottom:1px solid var(--g50); font-size:12.5px;
+}
+.ta-pat-erow:last-child { border-bottom:none; }
+.ta-pat-status-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.ta-pat-status-dot.active   { background:var(--green); }
+.ta-pat-status-dot.paused   { background:var(--amber); }
+.ta-pat-status-dot.inactive { background:var(--g300); }
+.ta-pat-ename { font-weight:600; color:var(--g800); flex-shrink:0; }
+.ta-pat-eaddr { color:var(--g400); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-left:auto; }
+
+/* Covering rows with slider + count */
+.ta-cover-rows { display:flex; flex-direction:column; gap:8px; }
+.ta-cover-row { border:1px solid var(--g200); border-radius:10px; padding:11px 13px; display:flex; flex-direction:column; gap:10px; }
+.ta-cover-head { display:flex; align-items:center; gap:9px; }
+.ta-cover-name { font-size:13px; font-weight:600; color:var(--g900); flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ta-load { font-size:11px; font-weight:600; display:flex; align-items:center; gap:4px; white-space:nowrap; }
+.ta-load-now { color:var(--g400); }
+.ta-load-arrow { color:var(--g300); }
+.ta-load-next { color:var(--blue); }
+.ta-load-next.over { color:var(--amber); }
+.ta-cover-x { background:none; border:none; color:var(--g400); cursor:pointer; font-size:15px; line-height:1; padding:2px; flex-shrink:0; }
+.ta-cover-x:hover { color:var(--g700); }
+.ta-cover-ctrl { display:flex; align-items:center; gap:13px; }
+.ta-slider { flex:1; accent-color:var(--blue); height:4px; cursor:pointer; min-width:0; }
+.ta-slider:disabled { cursor:default; opacity:.5; }
+.ta-count-wrap { display:flex; align-items:center; gap:5px; flex-shrink:0; }
+.ta-count-input {
+  width:48px; border:1.5px solid var(--g200); border-radius:7px;
+  padding:5px 6px; font-size:13px; font-weight:700; color:var(--g800);
+  text-align:center; font-family:inherit; outline:none; box-sizing:border-box;
+}
+.ta-count-input:focus { border-color:var(--blue); }
+.ta-count-input:disabled { background:var(--g50); color:var(--g500); }
+.ta-count-lbl { font-size:11px; color:var(--g400); }
+.ta-cover-empty { font-size:12px; color:var(--g400); padding:2px 2px; }
+.ta-cover-foot { display:flex; align-items:center; justify-content:space-between; font-size:11.5px; padding:2px 2px 0; }
+.ta-cover-foot-lbl { color:var(--g500); }
+.ta-cover-foot-val { font-weight:700; color:var(--g700); }
+
+/* ── PCC PERF: Live Communication Rate ── */
+.lcr-body { display:flex; gap:20px; align-items:center; }
+.lcr-bignums { display:flex; flex-direction:column; gap:16px; width:128px; flex-shrink:0; }
+.lcr-bignum { display:flex; flex-direction:column; gap:4px; }
+.lcr-bignum-val { display:flex; align-items:baseline; gap:2px; }
+.lcr-bignum-n { font-size:36px; font-weight:700; color:#000; line-height:1; }
+.lcr-bignum-n.sm { font-size:20px; }
+.lcr-bignum-unit { font-size:14px; font-weight:400; color:#6b7280; }
+.lcr-bignum-lbl { font-size:11px; font-weight:400; color:#9ca3af; }
+.lcr-divider { height:1px; background:#f3f4f6; }
+.lcr-stats { display:flex; flex-direction:column; flex:1; min-width:0; }
+.lcr-stat { display:flex; flex-direction:column; padding-bottom:8px; }
+.lcr-stat:last-child { padding-bottom:0; }
+.lcr-stat-hdr { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#6b7280; padding:6px 0; white-space:nowrap; overflow:hidden; }
+.lcr-stat-val { font-size:12px; font-weight:600; color:#111827; }
+.lcr-bar-track { height:8px; background:#f3f4f6; border-radius:4px; overflow:hidden; position:relative; }
+.lcr-bar-fill { height:100%; border-radius:4px; background:#4f85ff; }
+.lcr-goal-wrap { height:8px; position:relative; overflow:visible; }
+.lcr-goal-track { position:absolute; inset:0; background:#f3f4f6; border-radius:4px; overflow:hidden; }
+.lcr-goal-fill { height:100%; border-radius:4px; background:#b0bacc; }
+.lcr-goal-mark { position:absolute; top:-4px; width:2px; height:16px; background:#4f85ff; border-radius:1px; transform:translateX(-50%); }
+
+/* ── PCC PERF: PX Activity line chart ── */
+.pxa-subtitle { font-size:11px; color:var(--g400); margin-bottom:12px; }
+.pxa-chart-wrap { height:120px; position:relative; margin-bottom:4px; }
+.pxa-chart-wrap svg { width:100%; height:100%; overflow:visible; }
+.pxa-legend-row { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--g500); margin-top:8px; }
+.pxa-legend-swatch { width:14px; height:14px; background:rgba(99,149,255,.25); border-radius:3px; border:1.5px solid rgba(99,149,255,.5); }
+
+/* ── PCC PERF: Metric rows (ARS + Patient Insights new style) ── */
+.mrow-big { display:flex; gap:20px; align-items:flex-start; }
+.mrow-bignums { width:128px; flex-shrink:0; }
+.mrow-bignum-n { font-size:38px; font-weight:800; color:var(--g900); line-height:1; }
+.mrow-bignum-unit { font-size:16px; font-weight:500; color:var(--g500); }
+.mrow-bignum-lbl { font-size:11px; color:var(--g400); margin-top:3px; }
+.mrow-table { flex:1; display:flex; flex-direction:column; }
+.mrow { display:flex; align-items:center; padding:7px 8px; border-bottom:1px solid var(--g100); font-size:12.5px; border-radius:6px; }
+.mrow:last-child { border-bottom:none; }
+.mrow-label { flex:1; color:var(--g700); }
+.mrow-pct { width:52px; text-align:right; color:var(--g500); font-size:12px; margin-right:4px; }
+.mrow-val { width:22px; text-align:right; font-weight:700; color:var(--g900); }
+.mrow.warn { background:#FFFBEB; color:var(--amber); }
+.mrow.warn .mrow-label, .mrow.warn .mrow-pct, .mrow.warn .mrow-val { color:var(--amber); }
+
+/* ── PCC PERF: Patient Complete Breakdown blocks ── */
+.pcb-row { display:flex; align-items:center; gap:12px; margin-top:14px; }
+.pcb-row-label { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--g700); width:44px; flex-shrink:0; }
+.pcb-dot { width:10px; height:10px; border-radius:3px; display:inline-block; flex-shrink:0; }
+.pcb-dot.rpm  { background:var(--blue); }
+.pcb-dot.ccm  { background:var(--purple); }
+.pcb-blocks-row { display:flex; gap:6px; flex:1; }
+/* Base block — gray bg, relative for fill overlay */
+.pcb-block { flex:1; height:54px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; white-space:nowrap; position:relative; overflow:hidden; background:var(--g100); color:var(--g700); }
+/* 100% blocks — solid color, white text */
+.pcb-rpm-full { background:#3B82F6; color:#fff; }
+.pcb-ccm-full { background:#8B5CF6; color:#fff; }
+/* Progress fill — sits behind the label */
+.pcb-fill { position:absolute; top:0; left:0; height:100%; border-radius:10px 0 0 10px; }
+.pcb-fill-rpm { background:rgba(59,130,246,0.28); }
+.pcb-fill-ccm { background:rgba(139,92,246,0.28); }
+/* Label sits on top of fill */
+.pcb-lbl { position:relative; z-index:1; }
+.pcb-row-total { font-size:15px; font-weight:800; color:var(--g900); width:40px; text-align:right; flex-shrink:0; }
+/* PCB Tooltip — interactive, pointer-events ON */
+.pcb-tooltip {
+  position:fixed; z-index:9999;
+  background:#fff; border:1px solid var(--g200); border-radius:12px;
+  box-shadow:0 8px 28px rgba(0,0,0,.13); padding:14px 16px; width:264px;
+  font-size:13px; line-height:1.4;
+}
+.pcb-tip { cursor:default; }
+.pcb-tip-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.pcb-tip-badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:99px; }
+.pcb-tip-divider { height:1px; background:var(--g100); margin:6px 0; }
+.pcb-tip-sub { font-size:11px; color:var(--g400); margin-bottom:8px; }
+.pcb-tip-row { display:flex; justify-content:space-between; align-items:center; padding:6px 9px; border-radius:7px; margin-bottom:4px; font-size:12.5px; }
+.pcb-tip-link { cursor:pointer; transition:filter .12s; }
+.pcb-tip-link:hover { filter:brightness(.94); }
+.pcb-tip-link .pcb-tip-arrow { font-size:11px; opacity:0; margin-left:4px; transition:opacity .12s; }
+.pcb-tip-link:hover .pcb-tip-arrow { opacity:.7; }
+.pcb-tip-right { display:flex; align-items:center; gap:2px; font-weight:800; }
+.pcb-tip-action { margin-top:10px; padding:9px 10px; border-radius:8px; font-size:11.5px; line-height:1.5; }
+/* Filter banner (fixed, appears after clicking a row) */
+.pcb-filter-banner {
+  position:fixed; top:14px; left:50%; transform:translateX(-50%);
+  z-index:9998; display:flex; align-items:center; gap:10px;
+  background:#1E3A8A; color:#fff; padding:8px 18px; border-radius:99px;
+  font-size:12.5px; font-weight:600; box-shadow:0 4px 20px rgba(0,0,0,.22);
+  white-space:nowrap;
+}
+.pcb-filter-banner-icon { font-size:14px; }
+.pcb-filter-banner-close { background:none; border:none; color:rgba(255,255,255,.65); cursor:pointer; font-size:16px; line-height:1; padding:0 0 0 4px; transition:color .1s; }
+.pcb-filter-banner-close:hover { color:#fff; }
+
+/* KPI 6-col */
+.pcc-kpi-6 { grid-template-columns: repeat(6, 1fr); }
 </style>
 </head>
 <body>
@@ -3717,11 +4077,15 @@ select.np-input { cursor:pointer; }
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" placeholder="Search practitioners...">
       </div>
-      <select class="mu-select">
+      <select class="mu-select" id="mu-role-select">
         <option>All Roles</option>
         <option>Admin</option>
         <option>Care Coordinator</option>
       </select>
+      <button class="ta-quick-link" id="ta-quick-link" title="Reassign a coordinator's patients while they're out of office">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        Temporary Assignment
+      </button>
       <button class="mu-add-btn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Add New User
@@ -3892,8 +4256,8 @@ select.np-input { cursor:pointer; }
     <!-- Header -->
     <div class="pcc-header-row">
       <div>
-        <div class="pcc-title">PCC Performance</div>
-        <div class="pcc-subtitle" id="pcc-subtitle">Cassidy Johnson · Thu, 29 May 2026</div>
+        <div class="pcc-title">PCC Pacing Dashboard</div>
+        <div class="pcc-subtitle" id="pcc-subtitle">Cassidy Johnson · MAY 2026</div>
       </div>
       <div class="pcc-controls">
         <div class="pcc-toggle" id="pcc-toggle">
@@ -3908,7 +4272,7 @@ select.np-input { cursor:pointer; }
         </select>
         <div class="date-nav-group">
           <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><polyline points="15 18 9 12 15 6"/></svg></button>
-          <div class="date-label" id="pcc-date-lbl" style="min-width:160px;font-size:13px;">Thu, 29 May 2026</div>
+          <div class="date-label" id="pcc-date-lbl" style="min-width:160px;font-size:13px;">May 2026</div>
           <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><polyline points="9 18 15 12 9 6"/></svg></button>
         </div>
       </div>
@@ -3923,10 +4287,10 @@ select.np-input { cursor:pointer; }
       <span style="font-size:12px;font-weight:600;color:var(--g700);white-space:nowrap;">29 / 30 days · 96%</span>
     </div>
 
-    <!-- KPI Strip (5 cols) -->
-    <div class="kpi-strip pcc-kpi-5">
+    <!-- KPI Strip (6 cols) -->
+    <div class="kpi-strip pcc-kpi-6">
       <div class="kpi-card">
-        <div class="kpi-label">Billable Time <span id="pcc-kpi-lbl" style="font-weight:400;font-size:9.5px;text-transform:none;letter-spacing:0;">today</span></div>
+        <div class="kpi-label">Billable Time <span id="pcc-kpi-lbl" style="font-weight:400;font-size:9.5px;text-transform:none;letter-spacing:0;">MTD</span></div>
         <div class="kpi-value" style="color:var(--amber);">5.3<span>h</span></div>
         <div class="kpi-sub">of 6.5h · 82%</div>
         <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:82%;background:var(--amber);"></div></div>
@@ -3941,151 +4305,246 @@ select.np-input { cursor:pointer; }
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Live Call Rate</div>
-        <div class="kpi-value" style="color:var(--amber);">19<span>%</span></div>
-        <div class="kpi-sub">14 / 72 LCs this month</div>
-        <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:19%;background:var(--amber);"></div></div>
-        <span class="kpi-status kpi-warn">2 per patient needed</span>
+        <div class="kpi-value" style="color:var(--amber);">67<span>%</span></div>
+        <div class="kpi-sub">LCs 1: 34/36 · LCs 2: 27/36</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:67%;background:var(--amber);"></div></div>
+        <span class="kpi-status kpi-warn">Goal: 100%</span>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Avg Time / Patient</div>
-        <div class="kpi-value" style="color:var(--green);">18<span>min</span></div>
-        <div class="kpi-sub">Target zone: 15–22 min</div>
+        <div class="kpi-value" style="color:var(--green);">19<span>min</span></div>
+        <div class="kpi-sub">Target zone: 16–24 min</div>
         <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:70%;background:var(--green);"></div></div>
         <span class="kpi-status kpi-ok">In target zone</span>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">Reports Viewed</div>
-        <div class="kpi-value">12</div>
-        <div class="kpi-sub">today · 254 patients total</div>
-        <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:55%;background:var(--blue);"></div></div>
-        <span class="kpi-status kpi-ok">Good cadence</span>
+        <div class="kpi-label">Alert Response</div>
+        <div class="kpi-value" style="color:var(--green);">1.2<span>h</span></div>
+        <div class="kpi-sub">avg · 47 alerts this month</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:78%;background:var(--green);"></div></div>
+        <span class="kpi-status kpi-ok">Within target</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Total Patients</div>
+        <div class="kpi-value">36</div>
+        <div class="kpi-sub">active · 4 paused</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar-fill" style="width:90%;background:var(--blue);"></div></div>
+        <span class="kpi-status kpi-ok">Capacity 85%</span>
       </div>
     </div>
 
-    <!-- ── Section 1: Productivity ── -->
+    <!-- ── Section 1: Daily Pace & Productivity ── -->
     <div class="pcc-section-hdr">1 · Daily Pace &amp; Productivity</div>
+
+    <!-- Row 1: Patient Complete Breakdown + Live Communication Rate -->
     <div class="two-col">
 
-      <!-- Billable Hours Chart -->
+      <!-- Patient Complete Breakdown -->
       <div class="p-card">
         <div class="p-card-title">
-          Billable Hours
+          Patient Complete Breakdown
           <div class="p-card-title-tabs">
-            <button class="p-card-tab active" data-bh2="week">This Week</button>
-            <button class="p-card-tab" data-bh2="month">MTD</button>
+            <button class="p-card-tab active" data-pcb="pacing">Pacing %</button>
+            <button class="p-card-tab" data-pcb="time">Total Time</button>
           </div>
         </div>
-        <div style="height:160px;position:relative;"><canvas id="c-pcc-bh"></canvas></div>
-        <div style="display:flex;gap:14px;margin-top:8px;font-size:11px;color:var(--g500);align-items:center;">
-          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);display:inline-block;"></span>Above 6.5h</span>
-          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--amber);display:inline-block;"></span>Below 6.5h</span>
-          <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:0;border-top:2px dashed var(--blue);display:inline-block;"></span>Target</span>
+
+        <!-- RPM row -->
+        <div class="pcb-row">
+          <div class="pcb-row-label"><span class="pcb-dot rpm"></span>RPM</div>
+          <div class="pcb-blocks-row">
+            <div class="pcb-block pcb-rpm-full pcb-tip"
+              data-tier="B1" data-svc="RPM" data-pct="100"
+              data-filled="28" data-total="28" data-close="0" data-far="0" data-min="20">
+              <span class="pcb-lbl">✓ 100%</span>
+            </div>
+            <div class="pcb-block pcb-tip"
+              data-tier="B2" data-svc="RPM" data-pct="67"
+              data-filled="19" data-total="28" data-close="4" data-far="5" data-min="40">
+              <div class="pcb-fill pcb-fill-rpm" style="width:67%;"></div><span class="pcb-lbl">67%</span>
+            </div>
+            <div class="pcb-block pcb-tip"
+              data-tier="B3" data-svc="RPM" data-pct="32"
+              data-filled="9" data-total="28" data-close="5" data-far="14" data-min="60">
+              <div class="pcb-fill pcb-fill-rpm" style="width:32%;"></div><span class="pcb-lbl">32%</span>
+            </div>
+            <div class="pcb-block pcb-tip"
+              data-tier="B4" data-svc="RPM" data-pct="5"
+              data-filled="2" data-total="28" data-close="3" data-far="23" data-min="80">
+              <div class="pcb-fill pcb-fill-rpm" style="width:5%;"></div><span class="pcb-lbl">5%</span>
+            </div>
+          </div>
+          <div class="pcb-row-total">73%</div>
+        </div>
+
+        <!-- CCM row -->
+        <div class="pcb-row">
+          <div class="pcb-row-label"><span class="pcb-dot ccm"></span>CCM</div>
+          <div class="pcb-blocks-row">
+            <div class="pcb-block pcb-ccm-full pcb-tip"
+              data-tier="B1" data-svc="CCM" data-pct="100"
+              data-filled="14" data-total="14" data-close="0" data-far="0" data-min="20">
+              <span class="pcb-lbl">✓ 100%</span>
+            </div>
+            <div class="pcb-block pcb-tip"
+              data-tier="B2" data-svc="CCM" data-pct="62"
+              data-filled="9" data-total="14" data-close="2" data-far="3" data-min="40">
+              <div class="pcb-fill pcb-fill-ccm" style="width:62%;"></div><span class="pcb-lbl">62%</span>
+            </div>
+            <div class="pcb-block pcb-tip"
+              data-tier="B3" data-svc="CCM" data-pct="5"
+              data-filled="1" data-total="14" data-close="1" data-far="12" data-min="60">
+              <div class="pcb-fill pcb-fill-ccm" style="width:5%;"></div><span class="pcb-lbl">5%</span>
+            </div>
+          </div>
+          <div class="pcb-row-total">43%</div>
         </div>
       </div>
 
-      <!-- Billing Block Saturation -->
-      <div class="p-card">
-        <div class="p-card-title">Billing Block Saturation <span style="font-size:11px;font-weight:400;color:var(--g400);">MTD · excl. pro bono</span></div>
-
-        <div class="pcc-svc">
-          <div class="pcc-svc-hdr">
-            <span class="pcc-svc-name"><span style="width:8px;height:8px;border-radius:2px;background:var(--blue);"></span>RPM</span>
-            <span class="pcc-svc-info">42 min avg · target B3+ by today</span>
-          </div>
-          <div class="pcc-blocks">
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:98%;background:var(--blue);"></div></div><div class="pcc-block-lbl">B1 98%</div></div>
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:91%;background:var(--blue);"></div></div><div class="pcc-block-lbl">B2 91%</div></div>
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:76%;background:var(--blue);"></div></div><div class="pcc-block-lbl">B3 76%</div></div>
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:31%;background:#93C5FD;"></div></div><div class="pcc-block-lbl">B4 31%</div></div>
-          </div>
-          <div class="pcc-pace">
-            <span>Pacing:</span>
-            <div class="pcc-pace-track">
-              <div class="pcc-pace-fill" style="width:76%;background:var(--blue);"></div>
-              <div class="pcc-pace-mark" style="left:80%;"></div>
-            </div>
-            <span style="color:var(--amber);font-weight:600;">↓ 4% behind</span>
-          </div>
+      <!-- Live Communication Rate -->
+      <div class="p-card" style="padding:16px 20px 20px;">
+        <div class="p-card-title" style="font-size:15px;font-weight:600;color:#111827;margin-bottom:12px;">
+          Live Communication Rate
         </div>
-
-        <div style="height:1px;background:var(--g100);margin:12px 0;"></div>
-
-        <div class="pcc-svc">
-          <div class="pcc-svc-hdr">
-            <span class="pcc-svc-name"><span style="width:8px;height:8px;border-radius:2px;background:var(--purple);"></span>CCM</span>
-            <span class="pcc-svc-info">28 min avg · target B2 by today</span>
-          </div>
-          <div class="pcc-blocks">
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:95%;background:var(--purple);"></div></div><div class="pcc-block-lbl">B1 95%</div></div>
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:68%;background:var(--purple);"></div></div><div class="pcc-block-lbl">B2 68%</div></div>
-            <div class="pcc-block"><div class="pcc-block-bar"><div class="pcc-block-fill" style="width:22%;background:#C4B5FD;"></div></div><div class="pcc-block-lbl">B3 22%</div></div>
-          </div>
-          <div class="pcc-pace">
-            <span>Pacing:</span>
-            <div class="pcc-pace-track">
-              <div class="pcc-pace-fill" style="width:68%;background:var(--purple);"></div>
-              <div class="pcc-pace-mark" style="left:75%;"></div>
+        <div class="lcr-body">
+          <div class="lcr-bignums">
+            <div class="lcr-bignum">
+              <div class="lcr-bignum-val" data-lcr-tip="rate" style="cursor:default;">
+                <span class="lcr-bignum-n">67</span><span class="lcr-bignum-unit">%</span>
+              </div>
+              <div class="lcr-bignum-lbl">of LCs required</div>
             </div>
-            <span style="color:var(--amber);font-weight:600;">↓ 7% behind</span>
+            <div class="lcr-divider"></div>
+            <div class="lcr-bignum">
+              <div class="lcr-bignum-val" data-lcr-tip="duration" style="cursor:default;">
+                <span class="lcr-bignum-n sm">8</span><span class="lcr-bignum-unit">min</span>
+              </div>
+              <div class="lcr-bignum-lbl">Avg call duration</div>
+            </div>
+          </div>
+          <div class="lcr-stats">
+            <div class="lcr-stat">
+              <div class="lcr-stat-hdr"><span>LCs 1 completed</span><span class="lcr-stat-val">34/36</span></div>
+              <div class="lcr-bar-track" data-lcr-tip="lc1"><div class="lcr-bar-fill" style="width:94%;"></div></div>
+            </div>
+            <div class="lcr-stat">
+              <div class="lcr-stat-hdr"><span>LCs 2 completed</span><span class="lcr-stat-val">27/36</span></div>
+              <div class="lcr-bar-track" data-lcr-tip="lc2"><div class="lcr-bar-fill" style="width:75%;"></div></div>
+            </div>
+            <div class="lcr-stat">
+              <div class="lcr-stat-hdr">
+                <span>Live vs Non-live time</span>
+                <span class="lcr-stat-val">12% <span style="font-weight:400;font-size:11px;color:#6b7280;">(Goal 15%)</span></span>
+              </div>
+              <div class="lcr-goal-wrap" data-lcr-tip="live" style="cursor:default;">
+                <div class="lcr-goal-track">
+                  <div class="lcr-goal-fill" style="width:20%;"></div>
+                </div>
+                <div class="lcr-goal-mark" style="left:15%;"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Pacing + LC Rate -->
+    <!-- Row 2: PX Activity + Avg Time per Patient -->
     <div class="two-col">
+
+      <!-- PX Activity (line chart) -->
+      <div class="p-card">
+        <div class="p-card-title">PX Activity</div>
+        <div class="pxa-subtitle">PX Time breakdown — today, May 29</div>
+        <div class="pxa-chart-wrap">
+          <svg viewBox="0 0 480 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid lines -->
+            <line x1="0" y1="0" x2="0" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="48" y1="0" x2="48" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="96" y1="0" x2="96" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="144" y1="0" x2="144" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="192" y1="0" x2="192" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="240" y1="0" x2="240" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="288" y1="0" x2="288" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="336" y1="0" x2="336" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="384" y1="0" x2="384" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="432" y1="0" x2="432" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <line x1="480" y1="0" x2="480" y2="82" stroke="#E5E7EB" stroke-width="1"/>
+            <!-- Future area (gray overlay from ~4:30PM) -->
+            <rect x="408" y="0" width="72" height="82" fill="#F9FAFB" opacity="0.85"/>
+            <!-- Area fill (below the line) -->
+            <path d="M0,60 L57,30 L114,60 L171,48 L228,74 L285,66 L342,10 L399,28 L408,32 L480,32 L480,82 L0,82 Z"
+              fill="rgba(99,149,255,0.18)" />
+            <!-- Line -->
+            <path d="M0,60 L57,30 L114,60 L171,48 L228,74 L285,66 L342,10 L399,28 L408,32"
+              fill="none" stroke="#6395FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+            <!-- "Now" vertical marker -->
+            <line x1="408" y1="0" x2="408" y2="82" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3,3"/>
+            <!-- Data points -->
+            <circle cx="0"   cy="60" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="57"  cy="30" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="114" cy="60" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="171" cy="48" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="228" cy="74" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="285" cy="66" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="342" cy="10" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <circle cx="399" cy="28" r="4" fill="#fff" stroke="#6395FF" stroke-width="2"/>
+            <!-- X-axis labels -->
+            <text x="0"   y="97" font-size="10" fill="#9CA3AF" text-anchor="middle">8AM</text>
+            <text x="96"  y="97" font-size="10" fill="#9CA3AF" text-anchor="middle">10AM</text>
+            <text x="192" y="97" font-size="10" fill="#9CA3AF" text-anchor="middle">12PM</text>
+            <text x="288" y="97" font-size="10" fill="#9CA3AF" text-anchor="middle">2PM</text>
+            <text x="384" y="97" font-size="10" fill="#9CA3AF" text-anchor="middle">4PM</text>
+            <text x="480" y="97" font-size="10" fill="#9CA3AF" text-anchor="middle">6PM</text>
+          </svg>
+        </div>
+        <div class="pxa-legend-row">
+          <span class="pxa-legend-swatch"></span>
+          <span>Productivity level</span>
+        </div>
+      </div>
 
       <!-- Avg Time per Patient -->
       <div class="p-card">
-        <div class="p-card-title">Avg Time per Patient <span style="font-size:11px;font-weight:400;color:var(--g400);">Target zone: 15–22 min</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="text-align:center;padding:14px 0;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--g400);margin-bottom:6px;">RPM</div>
-            <div style="font-size:36px;font-weight:800;color:var(--green);line-height:1;">19<span style="font-size:13px;color:var(--g500);font-weight:500;">min</span></div>
-            <div style="font-size:11px;color:var(--green);margin-top:5px;">✓ In zone</div>
+        <div class="p-card-title">Avg Time per Patient <span style="font-size:11px;font-weight:400;color:var(--g400);">Target zone: 16–24 min</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:16px;">
+          <div style="padding:16px 12px 12px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+              <span style="width:12px;height:12px;border-radius:3px;background:var(--blue);display:inline-block;"></span>
+              <span style="font-size:11px;font-weight:600;color:var(--g600);">RPM</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:4px;">
+              <span style="font-size:38px;font-weight:800;color:var(--g900);line-height:1;">19</span>
+              <span style="font-size:15px;color:var(--g500);">min</span>
+            </div>
+            <div style="font-size:12px;color:var(--green);">✓ In zone</div>
           </div>
-          <div style="text-align:center;padding:14px 0;border-left:1px solid var(--g100);">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--g400);margin-bottom:6px;">CCM</div>
-            <div style="font-size:36px;font-weight:800;color:var(--amber);line-height:1;">22<span style="font-size:13px;color:var(--g500);font-weight:500;">min</span></div>
-            <div style="font-size:11px;color:var(--amber);margin-top:5px;">⚠ Upper limit</div>
+          <div style="padding:16px 12px 12px;border-left:1px solid var(--g100);">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+              <span style="width:12px;height:12px;border-radius:3px;background:var(--purple);display:inline-block;"></span>
+              <span style="font-size:11px;font-weight:600;color:var(--g600);">CCM</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:4px;">
+              <span style="font-size:38px;font-weight:800;color:var(--g900);line-height:1;">25</span>
+              <span style="font-size:15px;color:var(--g500);">min</span>
+            </div>
+            <div style="font-size:12px;color:var(--amber);">⚠ Upper limit</div>
           </div>
         </div>
-        <!-- Zone visualisation -->
-        <div style="padding:12px 0 4px;border-top:1px solid var(--g100);">
-          <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--g400);margin-bottom:5px;"><span>0</span><span>15 min</span><span>22 min</span><span>30 min</span></div>
-          <div style="height:10px;background:var(--g100);border-radius:99px;position:relative;">
-            <div style="position:absolute;left:50%;width:23%;height:100%;background:#DCFCE7;border-radius:4px;"></div>
-            <div style="position:absolute;left:63%;top:0;width:3px;height:100%;background:var(--blue);border-radius:2px;" title="RPM 19m"></div>
-            <div style="position:absolute;left:73%;top:0;width:3px;height:100%;background:var(--purple);border-radius:2px;" title="CCM 22m"></div>
+        <!-- Zone bar -->
+        <div style="padding:0 0 4px;border-top:1px solid var(--g100);padding-top:12px;">
+          <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--g400);margin-bottom:6px;"><span>0</span><span>15 min</span><span>22 min</span><span>30 min</span></div>
+          <div style="height:24px;background:var(--g100);border-radius:6px;position:relative;overflow:hidden;">
+            <div style="position:absolute;left:50%;width:24%;height:100%;background:#DBEAFE;"></div>
+            <div style="position:absolute;left:63%;top:0;width:2px;height:100%;background:var(--blue);" title="RPM 19m"></div>
+            <div style="position:absolute;left:83%;top:0;width:2px;height:100%;background:var(--purple);" title="CCM 25m"></div>
           </div>
           <div style="display:flex;gap:12px;margin-top:6px;font-size:10px;color:var(--g500);">
             <span><span class="pcc-legend-dot" style="background:var(--blue);"></span>RPM 19m</span>
-            <span><span class="pcc-legend-dot" style="background:var(--purple);"></span>CCM 22m</span>
-            <span><span class="pcc-legend-dot" style="background:#DCFCE7;border:1px solid #BBF7D0;"></span>Target zone</span>
+            <span><span class="pcc-legend-dot" style="background:var(--purple);"></span>CCM 25m</span>
+            <span><span class="pcc-legend-dot" style="background:#DBEAFE;border:1px solid #93C5FD;"></span>Target zone</span>
           </div>
         </div>
-      </div>
-
-      <!-- Live Interaction Rate -->
-      <div class="p-card">
-        <div class="p-card-title">Live Interaction Rate</div>
-        <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;">
-          <div class="pcc-big">
-            <div class="pcc-big-num" style="color:var(--amber);">19%</div>
-            <div class="pcc-big-sub">of LCs completed</div>
-          </div>
-          <div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">LCs completed</span><span class="pcc-stat-val">14</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">LCs required (MTD)</span><span class="pcc-stat-val" style="color:var(--g500);">72 total</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Avg call duration</span><span class="pcc-stat-val">8 min</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Live vs Non-live time</span><span class="pcc-stat-val" style="color:var(--amber);">67%</span></div>
-          </div>
-        </div>
-        <div class="kpi-bar-wrap" style="margin-top:10px;height:6px;">
-          <div class="kpi-bar-fill" style="width:19%;background:var(--amber);"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--g400);margin-top:3px;"><span>0%</span><span>14 / 72 LCs</span><span>100%</span></div>
       </div>
 
     </div>
@@ -4097,52 +4556,71 @@ select.np-input { cursor:pointer; }
       <!-- Alert Resolution Speed -->
       <div class="p-card">
         <div class="p-card-title">Alert Resolution Speed <span style="font-size:11px;font-weight:400;color:var(--g400);">9 am – 5 pm window</span></div>
-        <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin-bottom:12px;">
-          <div class="pcc-big">
-            <div class="pcc-big-num" style="color:var(--green);">1.2<span style="font-size:16px;font-weight:500;color:var(--g500);">h</span></div>
-            <div class="pcc-big-sub">avg response</div>
+        <div class="mrow-big">
+          <div class="mrow-bignums">
+            <div class="mrow-bignum-n">1.2<span class="mrow-bignum-unit">h</span></div>
+            <div class="mrow-bignum-lbl">avg response</div>
           </div>
-          <div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Alerts this month</span><span class="pcc-stat-val">47</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Addressed</span><span class="pcc-stat-val" style="color:var(--green);">41 (87%)</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Unaddressed</span><span class="pcc-stat-val" style="color:var(--red);">6 (13%)</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Outside hrs (excl.)</span><span class="pcc-stat-val" style="color:var(--g400);">12</span></div>
+          <div class="mrow-table">
+            <div class="mrow">
+              <span class="mrow-label">Alerts this month</span>
+              <span class="mrow-pct"></span>
+              <span class="mrow-val">47</span>
+            </div>
+            <div class="mrow">
+              <span class="mrow-label">Viewed + Contacted</span>
+              <span class="mrow-pct">60.2%</span>
+              <span class="mrow-val">28</span>
+            </div>
+            <div class="mrow">
+              <span class="mrow-label">Viewed, not contacted</span>
+              <span class="mrow-pct">27.0%</span>
+              <span class="mrow-val">13</span>
+            </div>
+            <div class="mrow warn">
+              <span class="mrow-label">Not viewed</span>
+              <span class="mrow-pct">13.5%</span>
+              <span class="mrow-val">6</span>
+            </div>
+            <div class="mrow">
+              <span class="mrow-label">Outside hrs (excl.)</span>
+              <span class="mrow-pct"></span>
+              <span class="mrow-val">12</span>
+            </div>
           </div>
-        </div>
-        <div class="pcc-split-bar">
-          <div style="width:87%;background:var(--green);border-radius:99px 0 0 99px;"></div>
-          <div style="width:13%;background:var(--red);border-radius:0 99px 99px 0;"></div>
-        </div>
-        <div class="pcc-split-legend">
-          <span><span class="pcc-legend-dot" style="background:var(--green);"></span>Addressed 87%</span>
-          <span><span class="pcc-legend-dot" style="background:var(--red);"></span>Unaddressed 13%</span>
         </div>
       </div>
 
-      <!-- Data Days Streak -->
+      <!-- Patient Insights -->
       <div class="p-card">
-        <div class="p-card-title">Data Days Streak <span style="font-size:11px;font-weight:400;color:var(--g400);">7+ consecutive days</span></div>
-        <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin-bottom:12px;">
-          <div class="pcc-big">
-            <div class="pcc-big-num" style="color:var(--blue);">28</div>
-            <div class="pcc-big-sub">patients on streak</div>
+        <div class="p-card-title">Patient Insights</div>
+        <div class="mrow-big">
+          <div class="mrow-bignums">
+            <div class="mrow-bignum-n">36</div>
+            <div class="mrow-bignum-lbl">total active patients</div>
           </div>
-          <div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">Total active patients</span><span class="pcc-stat-val">36</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">7+ day streak</span><span class="pcc-stat-val" style="color:var(--green);">28 (78%)</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">No data &gt; 3 days</span><span class="pcc-stat-val" style="color:var(--amber);">5 patients</span></div>
-            <div class="pcc-stat-row"><span class="pcc-stat-label">MTD data days total</span><span class="pcc-stat-val">847</span></div>
+          <div class="mrow-table">
+            <div class="mrow">
+              <span class="mrow-label">DD tag (2+ days without data)</span>
+              <span class="mrow-pct">5.5%</span>
+              <span class="mrow-val">2</span>
+            </div>
+            <div class="mrow">
+              <span class="mrow-label">Reached 16 days</span>
+              <span class="mrow-pct">13.8%</span>
+              <span class="mrow-val">5</span>
+            </div>
+            <div class="mrow warn">
+              <span class="mrow-label">Still eligible for 16 days</span>
+              <span class="mrow-pct">13.8%</span>
+              <span class="mrow-val">5</span>
+            </div>
+            <div class="mrow">
+              <span class="mrow-label">Missed 16d</span>
+              <span class="mrow-pct">13.8%</span>
+              <span class="mrow-val">5</span>
+            </div>
           </div>
-        </div>
-        <div class="pcc-split-bar">
-          <div style="width:78%;background:var(--green);border-radius:99px 0 0 99px;"></div>
-          <div style="width:14%;background:var(--amber);"></div>
-          <div style="width:8%;background:var(--g200);border-radius:0 99px 99px 0;"></div>
-        </div>
-        <div class="pcc-split-legend">
-          <span><span class="pcc-legend-dot" style="background:var(--green);"></span>7+ days 78%</span>
-          <span><span class="pcc-legend-dot" style="background:var(--amber);"></span>3–6 days 14%</span>
-          <span><span class="pcc-legend-dot" style="background:var(--g300);"></span>&lt;3 days 8%</span>
         </div>
       </div>
 
@@ -4160,21 +4638,10 @@ select.np-input { cursor:pointer; }
           <div style="font-size:11px;color:var(--g500);margin:6px 0;">of 6.5h/day capacity used</div>
           <span class="kpi-status kpi-warn">Near full capacity</span>
         </div>
-        <div class="kpi-bar-wrap" style="height:8px;">
-          <div class="kpi-bar-fill" style="width:85%;background:var(--amber);"></div>
+        <div class="kpi-bar-wrap" style="height:12px;border-radius:6px;">
+          <div class="kpi-bar-fill" style="width:85%;background:var(--amber);border-radius:6px;"></div>
         </div>
         <div style="font-size:11px;color:var(--g400);margin-top:8px;text-align:center;">Expected 5.5h · Actual 5.3h / 6.5h</div>
-      </div>
-
-      <!-- Patient Load -->
-      <div class="p-card">
-        <div class="p-card-title">Patient Load</div>
-        <div class="pcc-stat-row"><span class="pcc-stat-label">Active patients</span><span class="pcc-stat-val" style="color:var(--green);">36</span></div>
-        <div class="pcc-stat-row"><span class="pcc-stat-label">Paused</span><span class="pcc-stat-val" style="color:var(--amber);">4</span></div>
-        <div class="pcc-stat-row"><span class="pcc-stat-label">RPM only</span><span class="pcc-stat-val">22</span></div>
-        <div class="pcc-stat-row"><span class="pcc-stat-label">CCM only</span><span class="pcc-stat-val">8</span></div>
-        <div class="pcc-stat-row"><span class="pcc-stat-label">RPM + CCM</span><span class="pcc-stat-val">6</span></div>
-        <div class="pcc-stat-row"><span class="pcc-stat-label">Pro bono (excl.)</span><span class="pcc-stat-val" style="color:var(--g400);">3</span></div>
       </div>
 
       <!-- Capacity Output -->
@@ -4206,6 +4673,17 @@ select.np-input { cursor:pointer; }
           </div>
         </div>
         <div style="font-size:11px;color:var(--g400);text-align:center;border-top:1px solid var(--g100);padding-top:8px;">Based on 36 active patients · 6.5h/day</div>
+      </div>
+
+      <!-- Patient Load -->
+      <div class="p-card">
+        <div class="p-card-title">Patient Load</div>
+        <div class="pcc-stat-row"><span class="pcc-stat-label">Active patients</span><span class="pcc-stat-val" style="color:var(--green);">36</span></div>
+        <div class="pcc-stat-row"><span class="pcc-stat-label">Paused</span><span class="pcc-stat-val" style="color:var(--amber);">4</span></div>
+        <div class="pcc-stat-row"><span class="pcc-stat-label">RPM only</span><span class="pcc-stat-val">22</span></div>
+        <div class="pcc-stat-row"><span class="pcc-stat-label">CCM only</span><span class="pcc-stat-val">8</span></div>
+        <div class="pcc-stat-row"><span class="pcc-stat-label">RPM + CCM</span><span class="pcc-stat-val">6</span></div>
+        <div class="pcc-stat-row"><span class="pcc-stat-label">Pro bono (excl.)</span><span class="pcc-stat-val" style="color:var(--g400);">3</span></div>
       </div>
 
     </div>
@@ -5058,6 +5536,88 @@ select.np-input { cursor:pointer; }
   </div>
 </div>
 
+<!-- ══ Temporary Patient Coverage modal ══ -->
+<div id="ta-overlay" class="np-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="ta-title">
+  <div class="ta-modal">
+    <div class="ta-header">
+      <div>
+        <h2 class="ta-title" id="ta-title">Temporary Patient Coverage</h2>
+        <p class="ta-sub">Reassign a coordinator's patients to colleagues while they're out of office. Patients revert automatically when the period ends.</p>
+      </div>
+      <button class="np-close" id="ta-close" aria-label="Close">✕</button>
+    </div>
+    <div class="np-divider" style="margin-top:16px;"></div>
+
+    <div class="ta-body">
+
+      <!-- 1. Source -->
+      <div class="ta-block" id="ta-block-source">
+        <div class="ta-block-hdr">
+          <span class="ta-block-num">1</span>
+          <span class="ta-block-title">Coordinator requiring coverage</span>
+          <span class="ta-block-hint">Any team</span>
+        </div>
+        <div class="ta-combo" id="ta-source-combo">
+          <input type="text" class="ta-combo-input" id="ta-source-input" placeholder="Search any coordinator by name…" autocomplete="off">
+          <div class="ta-combo-list" id="ta-source-list"></div>
+        </div>
+        <div id="ta-source-selected"></div>
+        <div id="ta-source-patients"></div>
+      </div>
+
+      <!-- 2. Covering coordinators -->
+      <div class="ta-block disabled" id="ta-block-dest">
+        <div class="ta-block-hdr">
+          <span class="ta-block-num">2</span>
+          <span class="ta-block-title">Covering coordinator(s)</span>
+          <span class="ta-block-hint" id="ta-dest-hint">Select one or more</span>
+        </div>
+        <div class="ta-combo" id="ta-dest-combo">
+          <input type="text" class="ta-combo-input" id="ta-dest-input" placeholder="Select a source coordinator first…" autocomplete="off" disabled>
+          <div class="ta-combo-list" id="ta-dest-list"></div>
+        </div>
+        <div class="ta-cover-rows" id="ta-cover-rows"></div>
+      </div>
+
+      <!-- 3. Coverage period -->
+      <div class="ta-block disabled" id="ta-block-date">
+        <div class="ta-block-hdr">
+          <span class="ta-block-num">3</span>
+          <span class="ta-block-title">Coverage period</span>
+        </div>
+        <div class="ta-daterow">
+          <div class="ta-date-field">
+            <label>Start</label>
+            <div class="ta-date-inputs">
+              <input type="date" id="ta-start-date">
+              <input type="time" id="ta-start-time" value="09:00">
+            </div>
+          </div>
+          <div class="ta-date-field">
+            <label>End</label>
+            <div class="ta-date-inputs">
+              <input type="date" id="ta-end-date">
+              <input type="time" id="ta-end-time" value="17:00">
+            </div>
+          </div>
+        </div>
+        <div class="ta-date-err" id="ta-date-err" style="display:none;">End date/time must be after the start.</div>
+      </div>
+
+    </div>
+
+    <div class="np-footer">
+      <div></div>
+      <div class="np-footer-right">
+        <button class="np-btn-ghost" id="ta-cancel">Cancel</button>
+        <button class="np-btn-primary" id="ta-confirm" disabled>Confirm coverage</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ta-toast" class="ta-toast"></div>
+
 <!-- Context menu (shared, positioned by JS) -->
 <div id="ud-ctx-menu" class="ud-ctx-menu" style="display:none;">
   <button class="ud-ctx-item" id="ud-ctx-view">
@@ -5609,53 +6169,6 @@ const PCC_BH = {
     values: [6.2,6.8,5.9,7.1,6.5,6.0,6.3,5.8,7.2,6.4,6.7,5.5,6.9,7.0,5.2,6.6,7.1,6.8,6.3,5.9,5.3]
   }
 };
-const PCC_TARGET_H = 6.5;
-let pccBhChart = null;
-
-function buildPccBhChart(mode) {
-  const d = PCC_BH[mode];
-  const colors = d.values.map(v => v >= PCC_TARGET_H ? '#10B981' : '#F59E0B');
-  if (pccBhChart) { pccBhChart.destroy(); pccBhChart = null; }
-  pccBhChart = new Chart(document.getElementById('c-pcc-bh'), {
-    type: 'bar',
-    data: {
-      labels: d.labels,
-      datasets: [{ data: d.values, backgroundColor: colors, borderRadius: 4, borderSkipped: false }]
-    },
-    plugins: [{
-      id: 'pccTarget',
-      afterDraw(chart) {
-        const { ctx, scales: { x, y } } = chart;
-        const ty = y.getPixelForValue(PCC_TARGET_H);
-        ctx.save();
-        ctx.strokeStyle = 'rgba(37,99,235,.65)';
-        ctx.lineWidth = 1.5; ctx.setLineDash([5,4]);
-        ctx.beginPath(); ctx.moveTo(x.left, ty); ctx.lineTo(x.right, ty); ctx.stroke();
-        ctx.setLineDash([]); ctx.fillStyle = 'rgba(37,99,235,.65)';
-        ctx.font = 'bold 9px -apple-system,sans-serif'; ctx.textAlign = 'left';
-        ctx.fillText('6.5h', x.right + 4, ty + 3); ctx.restore();
-      }
-    }],
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.parsed.y}h billable` } } },
-      scales: {
-        x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10 }, color: '#9CA3AF' } },
-        y: { min: 0, max: 9, grid: { color: '#F3F4F6' }, border: { display: false }, ticks: { callback: v => v+'h', stepSize: 2, font: { size: 10 }, color: '#9CA3AF' } }
-      }
-    }
-  });
-}
-
-// BH week/month tabs
-document.querySelectorAll('[data-bh2]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    btn.closest('.p-card-title-tabs').querySelectorAll('.p-card-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    buildPccBhChart(btn.dataset.bh2);
-  });
-});
-
 // Daily/Monthly page toggle
 document.querySelectorAll('[data-pcc]').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -5663,17 +6176,292 @@ document.querySelectorAll('[data-pcc]').forEach(btn => {
     btn.classList.add('active');
     const monthly = btn.dataset.pcc === 'monthly';
     const lbl = monthly ? 'May 2026' : 'Thu, 29 May 2026';
-    document.getElementById('pcc-date-lbl').textContent = lbl;
-    document.getElementById('pcc-subtitle').textContent = 'Cassidy Johnson · ' + lbl;
-    document.getElementById('pcc-kpi-lbl').textContent = monthly ? 'MTD' : 'today';
-    buildPccBhChart(monthly ? 'month' : 'week');
-    document.querySelectorAll('[data-bh2]').forEach(b => b.classList.toggle('active', b.dataset.bh2 === (monthly ? 'month' : 'week')));
+    document.getElementById('pcc-date-lbl').textContent = monthly ? 'May 2026' : 'May 2026';
+    document.getElementById('pcc-subtitle').textContent = 'Cassidy Johnson · ' + (monthly ? 'MAY 2026' : 'Thu, 29 May');
   });
 });
 
-// Init chart when page first shown
-document.querySelector('[data-page="pcc-performance"]').addEventListener('click', () => {
-  setTimeout(() => buildPccBhChart('week'), 50);
+// Patient Complete Breakdown tabs
+document.querySelectorAll('[data-pcb]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.p-card-title-tabs').querySelectorAll('.p-card-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// ── PCB Block Tooltips (interactive) ──
+(function() {
+  const tip = document.createElement('div');
+  tip.className = 'pcb-tooltip';
+  tip.style.display = 'none';
+  document.body.appendChild(tip);
+
+  // Filter banner (shared, singleton)
+  const banner = document.createElement('div');
+  banner.className = 'pcb-filter-banner';
+  banner.style.display = 'none';
+  document.body.appendChild(banner);
+
+  let hideTimer  = null;
+  let activeBlock = null;
+
+  const SVC_COLOR = { RPM: '#3B82F6', CCM: '#8B5CF6' };
+  const SVC_BG    = { RPM: '#EFF6FF', CCM: '#F5F3FF' };
+  const SVC_TEXT  = { RPM: '#1E40AF', CCM: '#4C1D95' };
+  const MINS_AWAY = { B2: 8, B3: 9, B4: 7 };
+
+  function renderTip(d) {
+    const color  = SVC_COLOR[d.svc];
+    const bg     = SVC_BG[d.svc];
+    const textC  = SVC_TEXT[d.svc];
+    const filled = +d.filled, total = +d.total, close = +d.close, far = +d.far;
+    const isFull = +d.pct >= 100;
+    const away   = MINS_AWAY[d.tier] || 8;
+
+    const hdr = `
+      <div class="pcb-tip-hdr">
+        <span style="font-size:13px;font-weight:700;color:${color};">${d.tier} · ${d.svc}</span>
+      </div>
+      <div class="pcb-tip-divider"></div>
+      <div class="pcb-tip-sub">Out of ${total} ${d.svc} patients this month</div>`;
+
+    if (isFull) {
+      return hdr + `
+        <div class="pcb-tip-row pcb-tip-link" data-action="completed" data-count="${filled}"
+             style="background:#F0FDF4;">
+          <span style="color:#15803D;">✓ All completed ${d.tier}</span>
+          <span class="pcb-tip-right" style="color:#15803D;">${filled}<span class="pcb-tip-arrow">→</span></span>
+        </div>
+        <div class="pcb-tip-action" style="background:${bg};color:${textC};">
+          🎉 Every ${d.svc} patient reached the ${d.tier} threshold this month.
+        </div>`;
+    }
+
+    return hdr + `
+      <div class="pcb-tip-row pcb-tip-link" data-action="completed" data-count="${filled}"
+           style="background:#F0FDF4;">
+        <span style="color:#15803D;">✓ Completed ${d.tier}</span>
+        <span class="pcb-tip-right" style="color:#15803D;">${filled}<span class="pcb-tip-arrow">→</span></span>
+      </div>
+      ${close > 0 ? `
+      <div class="pcb-tip-row pcb-tip-link" data-action="close" data-count="${close}" data-away="${away}"
+           style="background:#FFFBEB;">
+        <span style="color:#92400E;">⚡ Within ~${away} min of ${d.tier}</span>
+        <span class="pcb-tip-right" style="color:#D97706;">${close}<span class="pcb-tip-arrow">→</span></span>
+      </div>` : ''}
+      <div class="pcb-tip-row pcb-tip-link" data-action="not-reached" data-count="${far}"
+           style="background:var(--g50);">
+        <span style="color:var(--g500);">✗ Not yet reached</span>
+        <span class="pcb-tip-right" style="color:var(--g500);">${far}<span class="pcb-tip-arrow">→</span></span>
+      </div>
+      `;
+  }
+
+  function positionTip(block) {
+    const r = block.getBoundingClientRect();
+    const tw = 264, th = tip.offsetHeight || 200;
+    let left = r.left + r.width / 2 - tw / 2;
+    let top  = r.top - th - 12;
+    if (top < 8) top = r.bottom + 12;
+    left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+
+  function showTip(block) {
+    clearTimeout(hideTimer);
+    activeBlock = block;
+    tip.innerHTML = renderTip(block.dataset);
+    tip.style.display = 'block';
+    positionTip(block);
+  }
+
+  function schedulHide(ms = 160) {
+    hideTimer = setTimeout(() => {
+      tip.style.display = 'none';
+      activeBlock = null;
+    }, ms);
+  }
+
+  // Block: show on enter, start hide timer on leave
+  document.addEventListener('mouseover', e => {
+    const block = e.target.closest('.pcb-tip');
+    if (block) showTip(block);
+  });
+  document.addEventListener('mouseout', e => {
+    const leavingBlock = e.target.closest('.pcb-tip');
+    const enteringTip  = e.relatedTarget?.closest('.pcb-tooltip');
+    if (leavingBlock && !enteringTip) schedulHide();
+  });
+
+  // Tooltip: cancel hide on enter, start hide on leave
+  tip.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+  tip.addEventListener('mouseleave', e => {
+    const enteringBlock = e.relatedTarget?.closest('.pcb-tip');
+    if (!enteringBlock) schedulHide(120);
+  });
+
+  // Click on a row inside tooltip → navigate to patients with filter
+  tip.addEventListener('click', e => {
+    const row = e.target.closest('.pcb-tip-link[data-action]');
+    if (!row || !activeBlock) return;
+
+    const d      = activeBlock.dataset;
+    const action = row.dataset.action;
+    const count  = +row.dataset.count;
+    const away   = row.dataset.away ? `~${row.dataset.away} min away` : null;
+
+    const labels = {
+      completed:   `✓ ${count} ${d.svc} patients — completed ${d.tier}`,
+      close:       `⚡ ${count} ${d.svc} patients — within ${away} of ${d.tier}`,
+      'not-reached': `✗ ${count} ${d.svc} patients — haven't reached ${d.tier} yet`,
+    };
+
+    tip.style.display = 'none';
+    activeBlock = null;
+
+    // Show banner and navigate to patients
+    showFilterBanner(labels[action] || labels.completed, SVC_COLOR[d.svc]);
+    document.querySelector('[data-page="patients"]')?.click();
+  });
+
+  // ── Filter banner ──
+  function showFilterBanner(label, color) {
+    banner.innerHTML = `
+      <span class="pcb-filter-banner-icon">⚡</span>
+      <span>Filtered: ${label}</span>
+      <button class="pcb-filter-banner-close" title="Clear filter">×</button>`;
+    banner.style.background = color || '#1E3A8A';
+    banner.style.display = 'flex';
+    banner.querySelector('.pcb-filter-banner-close').addEventListener('click', () => {
+      banner.style.display = 'none';
+    });
+  }
+})();
+
+// ── LCR Tooltips ──────────────────────────────────────────────
+(function() {
+  const BLUE   = '#4f85ff';
+  const BLUE_BG = '#EFF6FF';
+  const BLUE_TXT = '#1E40AF';
+
+  const tip = document.createElement('div');
+  tip.className = 'pcb-tooltip lcr-tip-el';
+  tip.style.display = 'none';
+  document.body.appendChild(tip);
+
+  let hideTimer = null;
+
+  const DATA = {
+    rate: {
+      hdr: 'Live Comm. Rate · This Month',
+      sub: 'Communication summary for all 36 patients',
+      rows: [
+        { label: '📞 Total calls made',  value: '32 calls', bg: BLUE_BG, color: BLUE_TXT },
+        { label: '⏱ Total call time',    value: '4h 16min', bg: BLUE_BG, color: BLUE_TXT },
+      ],
+    },
+    lc1: {
+      hdr: 'LC 1 · This Month',
+      sub: 'Out of 36 patients this month',
+      rows: [
+        { label: '✓ Completed LC 1',      value: '34',      bg: '#F0FDF4', color: '#15803D' },
+        { label: '✗ Not yet completed',    value: '2',       bg: '#F9FAFB', color: '#6B7280' },
+        { label: '⏱ Total call time',      value: '4h 32min', bg: BLUE_BG, color: BLUE_TXT },
+      ],
+    },
+    lc2: {
+      hdr: 'LC 2 · This Month',
+      sub: 'Out of 36 patients this month',
+      rows: [
+        { label: '✓ Completed LC 2',      value: '27',       bg: '#F0FDF4', color: '#15803D' },
+        { label: '✗ Not yet completed',    value: '9',        bg: '#F9FAFB', color: '#6B7280' },
+        { label: '⏱ Total call time',      value: '3h 48min', bg: BLUE_BG,  color: BLUE_TXT },
+      ],
+    },
+    duration: {
+      hdr: 'Avg Call Duration · This Month',
+      sub: '32 calls total across all patients',
+      rows: [
+        { label: '< 5 min  (too short)',   value: '8 calls',  bg: '#FFFBEB', color: '#92400E' },
+        { label: '5–15 min (optimal)',      value: '21 calls', bg: '#F0FDF4', color: '#15803D' },
+        { label: '> 15 min (long)',         value: '3 calls',  bg: '#F9FAFB', color: '#6B7280' },
+        { label: '📈 vs last month',        value: '+1.2 min', bg: BLUE_BG,   color: BLUE_TXT },
+      ],
+    },
+    live: {
+      hdr: 'Live vs Non-live Time',
+      sub: 'Live contact share this month',
+      rows: [
+        { label: '🟦 Current',             value: '12%',      bg: BLUE_BG,   color: BLUE_TXT },
+        { label: '🎯 Goal',                value: '15%',      bg: '#F9FAFB', color: '#6B7280' },
+        { label: '⚡ Gap to goal',          value: '−3% · ~18 min', bg: '#FFFBEB', color: '#92400E' },
+        { label: '⏱ Live time total',      value: '3h 12min', bg: '#F0FDF4', color: '#15803D' },
+        { label: '📋 Non-live time',        value: '26h 48min', bg: '#F9FAFB', color: '#6B7280' },
+      ],
+    },
+  };
+
+  function renderTip(key) {
+    const d = DATA[key];
+    return `
+      <div class="pcb-tip-hdr">
+        <span style="font-size:13px;font-weight:700;color:${BLUE};">${d.hdr}</span>
+      </div>
+      <div class="pcb-tip-divider"></div>
+      <div class="pcb-tip-sub">${d.sub}</div>
+      ${d.rows.map(r => `
+        <div class="pcb-tip-row" style="background:${r.bg};margin-bottom:4px;">
+          <span style="color:${r.color};">${r.label}</span>
+          <span class="pcb-tip-right" style="color:${r.color};">${r.value}</span>
+        </div>`).join('')}`;
+  }
+
+  function positionTip(el) {
+    const r = el.getBoundingClientRect();
+    const tw = 264, th = tip.offsetHeight || 160;
+    let left = r.left + r.width / 2 - tw / 2;
+    let top  = r.top - th - 12;
+    if (top < 8) top = r.bottom + 12;
+    left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+
+  function showTip(el) {
+    clearTimeout(hideTimer);
+    tip.innerHTML = renderTip(el.dataset.lcrTip);
+    tip.style.display = 'block';
+    positionTip(el);
+  }
+
+  function scheduleHide(ms = 160) {
+    hideTimer = setTimeout(() => { tip.style.display = 'none'; }, ms);
+  }
+
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-lcr-tip]');
+    if (el) showTip(el);
+  });
+  document.addEventListener('mouseout', e => {
+    const leaving = e.target.closest('[data-lcr-tip]');
+    const enteringTip = e.relatedTarget?.closest('.lcr-tip-el');
+    if (leaving && !enteringTip) scheduleHide();
+  });
+
+  tip.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+  tip.addEventListener('mouseleave', e => {
+    const enteringEl = e.relatedTarget?.closest('[data-lcr-tip]');
+    if (!enteringEl) scheduleHide(120);
+  });
+})();
+
+// Live Communication Rate tabs
+document.querySelectorAll('[data-lcr]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.p-card-title-tabs').querySelectorAll('.p-card-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
 });
 
 /* ══════════════════════════════════════════════
@@ -5866,7 +6654,7 @@ function udRenderLeft(u) {
       const label = st.charAt(0).toUpperCase() + st.slice(1);
       return `<div class="ud-asgn-item" data-pidx="${i}">
         <div class="ud-asgn-bar s-${st}" data-label="${label}"></div>
-        <div class="ud-asgn-info"><div class="ud-asgn-name">${p.name}</div></div>
+        <div class="ud-asgn-info"><div class="ud-asgn-name">${p.name}${(window.TEMP_BY_PATIENT&&window.TEMP_BY_PATIENT[p.name])?' <span class="temp-tag">TEMP</span>':''}</div></div>
         <button class="ud-asgn-more" data-pidx="${i}" title="Options">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/>
@@ -5911,7 +6699,7 @@ function udRenderTable() {
     const on = u.assigned.has(gi);
     return `<tr class="${on?'ud-checked':''}" data-pidx="${gi}">
       <td><input type="checkbox" class="ud-pt-cb" ${on?'checked':''}></td>
-      <td class="ud-pt-name">${p.name}</td>
+      <td class="ud-pt-name">${p.name}${(window.TEMP_BY_PATIENT&&window.TEMP_BY_PATIENT[p.name])?' <span class="temp-tag">TEMP</span>':''}</td>
       <td class="ud-pt-addr">${p.addr}</td>
     </tr>`;
   }).join('');
@@ -6020,7 +6808,7 @@ function pdRenderLeft(p) {
       const lbl = st.charAt(0).toUpperCase() + st.slice(1);
       return `<div class="ud-asgn-item" style="cursor:pointer;" onclick="goToPage('patients')">
         <div class="ud-asgn-bar s-${st}" data-label="${lbl}"></div>
-        <div class="ud-asgn-info"><div class="ud-asgn-name">${pt.name}</div></div>
+        <div class="ud-asgn-info"><div class="ud-asgn-name">${pt.name}${(window.TEMP_BY_PATIENT&&window.TEMP_BY_PATIENT[pt.name])?' <span class="temp-tag">TEMP</span>':''}</div></div>
         <button class="ud-asgn-more" onclick="event.stopPropagation();pdOpenCtx(${i},this)" title="Options">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/>
@@ -6432,6 +7220,401 @@ document.addEventListener('click', e => {
     clearErrors();
   }
 
+})();
+
+/* ══════════════════════════════════════════════
+   TEMPORARY PATIENT COVERAGE
+══════════════════════════════════════════════ */
+window.TEMP_BY_PATIENT = window.TEMP_BY_PATIENT || {};   // patientName -> {covering, source, start, end}
+(function() {
+  const SOFT_CAP = 25;
+
+  const overlay   = document.getElementById('ta-overlay');
+  const quickLink = document.getElementById('ta-quick-link');
+  const roleSel   = document.getElementById('mu-role-select');
+
+  const srcInput  = document.getElementById('ta-source-input');
+  const srcList   = document.getElementById('ta-source-list');
+  const srcSel    = document.getElementById('ta-source-selected');
+  const srcPats   = document.getElementById('ta-source-patients');
+  const destInput = document.getElementById('ta-dest-input');
+  const destList  = document.getElementById('ta-dest-list');
+  const coverRows = document.getElementById('ta-cover-rows');
+  const confirmBtn= document.getElementById('ta-confirm');
+  const toast     = document.getElementById('ta-toast');
+
+  // Coordinators that already have full coverage saved (overlap prevention)
+  const coveredSources = new Set();
+
+  let taSource = null;            // index into MU_USERS
+  let taDests  = [];              // array of MU_USERS indices
+  let taCounts = {};              // dest user idx -> number of patients they take
+
+  const STATUS_ORDER = { active:0, paused:1, inactive:2 };
+  const totalPatients = () => srcPatientIdx().length;
+
+  const isCC = u => /Care Coordinator/i.test(u.role || '');
+  const ccUsers = () => MU_USERS.map((u, i) => ({ u, i })).filter(x => isCC(x.u));
+  const initials = name => name.trim().split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+  const srcPatientIdx = () => taSource == null ? [] : [...MU_USERS[taSource].assigned].sort((a,b)=>a-b);
+
+  /* ── Visibility of quick link ── */
+  function syncQuickLink() {
+    const show = roleSel && roleSel.value === 'Care Coordinator';
+    quickLink.classList.toggle('show', !!show);
+  }
+  if (roleSel) roleSel.addEventListener('change', syncQuickLink);
+  syncQuickLink();
+
+  /* ── Open / Close ── */
+  function openTA() {
+    resetTA();
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => srcInput.focus(), 150);
+  }
+  function closeTA() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  function resetTA() {
+    taSource = null; taDests = []; taCounts = {};
+    srcInput.value = ''; srcInput.style.display = '';
+    srcSel.innerHTML = ''; srcPats.innerHTML = '';
+    destInput.value = ''; destInput.disabled = true;
+    destInput.placeholder = 'Select a source coordinator first…';
+    coverRows.innerHTML = '';
+    srcList.classList.remove('open'); destList.classList.remove('open');
+    document.getElementById('ta-block-dest').classList.add('disabled');
+    document.getElementById('ta-block-date').classList.add('disabled');
+    // default dates: today 09:00 → +7 days 17:00
+    const fmt = d => d.toISOString().slice(0,10);
+    const today = new Date(); const wk = new Date(Date.now() + 7*864e5);
+    document.getElementById('ta-start-date').value = fmt(today);
+    document.getElementById('ta-end-date').value   = fmt(wk);
+    document.getElementById('ta-start-time').value = '09:00';
+    document.getElementById('ta-end-time').value   = '17:00';
+    document.getElementById('ta-date-err').style.display = 'none';
+    validate();
+  }
+
+  quickLink.addEventListener('click', openTA);
+  document.getElementById('ta-close').addEventListener('click', closeTA);
+  document.getElementById('ta-cancel').addEventListener('click', closeTA);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeTA(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.style.display === 'flex') closeTA(); });
+
+  /* ── Source combobox ── */
+  function renderSourceList(q='') {
+    const query = q.toLowerCase();
+    const opts = ccUsers().filter(x => x.u.name.toLowerCase().includes(query));
+    if (!opts.length) { srcList.innerHTML = '<div class="ta-combo-empty">No coordinators found</div>'; return; }
+    srcList.innerHTML = opts.map(({u, i}) => {
+      const covered = coveredSources.has(i);
+      const n = u.assigned.size;
+      return `<div class="ta-combo-opt ${covered?'disabled':''}" data-idx="${i}">
+        <span class="ta-opt-left">
+          <span class="ta-opt-name">${u.name}</span>
+        </span>
+        <span class="ta-opt-meta">${covered ? '' : n + (n===1?' patient':' patients')}</span>
+        ${covered ? '<span class="ta-opt-badge covered">Covered</span>' : ''}
+      </div>`;
+    }).join('');
+    srcList.querySelectorAll('.ta-combo-opt:not(.disabled)').forEach(el => {
+      el.addEventListener('mousedown', e => { e.preventDefault(); selectSource(+el.dataset.idx); });
+    });
+  }
+  srcInput.addEventListener('focus', () => { renderSourceList(srcInput.value); srcList.classList.add('open'); });
+  srcInput.addEventListener('input', () => { renderSourceList(srcInput.value); srcList.classList.add('open'); });
+  srcInput.addEventListener('blur',  () => setTimeout(() => srcList.classList.remove('open'), 120));
+
+  function selectSource(idx) {
+    taSource = idx;
+    taDests = []; taCounts = {};
+    srcList.classList.remove('open');
+    const u = MU_USERS[idx];
+    srcInput.style.display = 'none';
+    srcSel.innerHTML = `
+      <div class="ta-source-card">
+        <div class="ta-avatar">${initials(u.name)}</div>
+        <div class="ta-source-info">
+          <div class="ta-source-name">${u.name}</div>
+          <div class="ta-source-sub">${u.role}</div>
+        </div>
+        <button class="ta-source-clear" id="ta-src-clear" title="Change">✕</button>
+      </div>`;
+    document.getElementById('ta-src-clear').addEventListener('click', clearSource);
+    renderSourcePatients();
+
+    // enable destination + dates
+    destInput.disabled = false;
+    destInput.placeholder = 'Search coordinators to cover…';
+    coverRows.innerHTML = '';
+    document.getElementById('ta-block-dest').classList.remove('disabled');
+    document.getElementById('ta-block-date').classList.remove('disabled');
+    renderCoverRows();
+    validate();
+  }
+  function clearSource() {
+    taSource = null; taDests = []; taCounts = {};
+    srcInput.style.display = ''; srcInput.value = '';
+    srcSel.innerHTML = ''; srcPats.innerHTML = '';
+    destInput.value = ''; destInput.disabled = true;
+    destInput.placeholder = 'Select a source coordinator first…';
+    coverRows.innerHTML = '';
+    document.getElementById('ta-block-dest').classList.add('disabled');
+    document.getElementById('ta-block-date').classList.add('disabled');
+    setTimeout(() => srcInput.focus(), 50);
+    validate();
+  }
+
+  /* ── Source patient summary + expandable list ── */
+  function renderSourcePatients() {
+    const pats = srcPatientIdx();
+    if (!pats.length) {
+      srcPats.innerHTML = `<div class="ta-pat-summary"><span class="ta-pat-summary-left">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        No patients assigned to this coordinator</span></div>`;
+      return;
+    }
+    const rows = pats
+      .map(gi => ({ gi, p: MU_PATIENTS_ALL[gi] }))
+      .sort((a,b) => (STATUS_ORDER[a.p.status]??9) - (STATUS_ORDER[b.p.status]??9) || a.p.name.localeCompare(b.p.name))
+      .map(({p}) => {
+        const st = p.status || 'active';
+        const addr = (p.addr && p.addr.replace(/^,\s*/,'').trim()) || '—';
+        return `<div class="ta-pat-erow">
+          <span class="ta-pat-status-dot ${st}" title="${st}"></span>
+          <span class="ta-pat-ename">${p.name}</span>
+          <span class="ta-pat-eaddr">${addr}</span>
+        </div>`;
+      }).join('');
+    srcPats.innerHTML = `
+      <div class="ta-pat-summary">
+        <span class="ta-pat-summary-left">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          ${pats.length} patient${pats.length===1?'':'s'} assigned
+        </span>
+        <button class="ta-pat-expand-btn" id="ta-pat-expand-btn" type="button">
+          View
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+      <div class="ta-pat-expand" id="ta-pat-expand"><div class="ta-pat-elist">${rows}</div></div>`;
+    const btn = document.getElementById('ta-pat-expand-btn');
+    const exp = document.getElementById('ta-pat-expand');
+    btn.addEventListener('click', () => {
+      const open = exp.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.firstChild.textContent = open ? 'Hide ' : 'View ';
+    });
+  }
+
+  /* ── Destination combobox (multi) — capacity shown as % ── */
+  const loadPct = size => Math.round(size / SOFT_CAP * 100);
+  function renderDestList(q='') {
+    const query = q.toLowerCase();
+    const opts = ccUsers().filter(x =>
+      x.i !== taSource && !taDests.includes(x.i) && x.u.name.toLowerCase().includes(query)
+    );
+    if (!opts.length) { destList.innerHTML = '<div class="ta-combo-empty">No more coordinators</div>'; return; }
+    destList.innerHTML = opts.map(({u, i}) => {
+      const pct = loadPct(u.assigned.size);
+      const over = pct >= 90;
+      return `<div class="ta-combo-opt" data-idx="${i}">
+        <span class="ta-opt-left">
+          <span class="ta-avatar alt" style="width:24px;height:24px;font-size:10px;">${initials(u.name)}</span>
+          <span class="ta-opt-name">${u.name}</span>
+        </span>
+        <span class="ta-opt-meta" style="${over?'color:var(--amber);':''}">${pct}% load</span>
+      </div>`;
+    }).join('');
+    destList.querySelectorAll('.ta-combo-opt').forEach(el => {
+      el.addEventListener('mousedown', e => { e.preventDefault(); addDest(+el.dataset.idx); });
+    });
+  }
+  destInput.addEventListener('focus', () => { if (destInput.disabled) return; renderDestList(destInput.value); destList.classList.add('open'); });
+  destInput.addEventListener('input', () => { renderDestList(destInput.value); destList.classList.add('open'); });
+  destInput.addEventListener('blur',  () => setTimeout(() => destList.classList.remove('open'), 120));
+
+  function addDest(idx) {
+    if (!taDests.includes(idx)) taDests.push(idx);
+    destInput.value = '';
+    destList.classList.remove('open');
+    evenCounts();
+    renderCoverRows(); validate();
+  }
+  function removeDest(idx) {
+    taDests = taDests.filter(d => d !== idx);
+    delete taCounts[idx];
+    evenCounts();
+    renderCoverRows(); validate();
+  }
+
+  /* ── Count distribution ── */
+  // Even split of the source's patients across all covering coordinators.
+  function evenCounts() {
+    const P = totalPatients();
+    const N = taDests.length;
+    taCounts = {};
+    if (N === 0) return;
+    const base = Math.floor(P / N), rem = P - base * N;
+    taDests.forEach((d, k) => { taCounts[d] = base + (k < rem ? 1 : 0); });
+  }
+  // Set one coordinator's count and re-flow the remainder across the others,
+  // preserving their relative proportions where possible.
+  function setCount(idx, v) {
+    const P = totalPatients();
+    v = Math.max(0, Math.min(P, Math.round(v || 0)));
+    const others = taDests.filter(d => d !== idx);
+    if (others.length === 0) { taCounts[idx] = P; return; }
+    taCounts[idx] = v;
+    let remaining = P - v;
+    const othSum = others.reduce((s, d) => s + (taCounts[d] || 0), 0);
+    if (othSum === 0) {
+      const base = Math.floor(remaining / others.length), rem = remaining - base * others.length;
+      others.forEach((d, k) => { taCounts[d] = base + (k < rem ? 1 : 0); });
+    } else {
+      let assigned = 0;
+      others.forEach((d, k) => {
+        if (k === others.length - 1) { taCounts[d] = Math.max(0, remaining - assigned); }
+        else { const c = Math.round((taCounts[d] || 0) / othSum * remaining); taCounts[d] = c; assigned += c; }
+      });
+    }
+  }
+
+  function renderCoverRows() {
+    const P = totalPatients();
+    const single = taDests.length === 1;
+    document.getElementById('ta-dest-hint').textContent =
+      taDests.length ? `${taDests.length} selected` : 'Select one or more';
+
+    if (taDests.length === 0) {
+      coverRows.innerHTML = '<div class="ta-cover-empty">No covering coordinators selected yet.</div>';
+      return;
+    }
+    const rowsHTML = taDests.map(idx => {
+      const u = MU_USERS[idx];
+      const cnt = taCounts[idx] || 0;
+      const nowPct = loadPct(u.assigned.size);
+      const nextPct = loadPct(u.assigned.size + cnt);
+      const over = nextPct > 100;
+      return `<div class="ta-cover-row" data-idx="${idx}">
+        <div class="ta-cover-head">
+          <span class="ta-avatar alt" style="width:26px;height:26px;font-size:10px;">${initials(u.name)}</span>
+          <span class="ta-cover-name">${u.name}</span>
+          <span class="ta-load"><span class="ta-load-now">${nowPct}%</span><span class="ta-load-arrow">→</span><span class="ta-load-next ${over?'over':''}">${Math.min(nextPct,999)}%</span></span>
+          <button class="ta-cover-x" data-idx="${idx}" title="Remove">✕</button>
+        </div>
+        <div class="ta-cover-ctrl">
+          <input type="range" class="ta-slider" min="0" max="${P}" value="${cnt}" data-idx="${idx}" ${single?'disabled':''}>
+          <span class="ta-count-wrap">
+            <input type="number" class="ta-count-input" min="0" max="${P}" value="${cnt}" data-idx="${idx}" ${single?'disabled':''}>
+            <span class="ta-count-lbl">of ${P}</span>
+          </span>
+        </div>
+      </div>`;
+    }).join('');
+    const sum = taDests.reduce((s, d) => s + (taCounts[d] || 0), 0);
+    const footHTML = `<div class="ta-cover-foot">
+      <span class="ta-cover-foot-lbl">Total distributed</span>
+      <span class="ta-cover-foot-val">${sum} of ${P} patient${P===1?'':'s'}</span>
+    </div>`;
+    coverRows.innerHTML = rowsHTML + footHTML;
+
+    coverRows.querySelectorAll('.ta-cover-x').forEach(b =>
+      b.addEventListener('click', () => removeDest(+b.dataset.idx)));
+    coverRows.querySelectorAll('.ta-slider').forEach(sl =>
+      sl.addEventListener('input', () => { setCount(+sl.dataset.idx, +sl.value); renderCoverRows(); }));
+    coverRows.querySelectorAll('.ta-count-input').forEach(inp =>
+      inp.addEventListener('change', () => { setCount(+inp.dataset.idx, +inp.value); renderCoverRows(); }));
+  }
+
+  /* ── Validation ── */
+  function dateRange() {
+    const sd = document.getElementById('ta-start-date').value;
+    const st = document.getElementById('ta-start-time').value || '00:00';
+    const ed = document.getElementById('ta-end-date').value;
+    const et = document.getElementById('ta-end-time').value || '00:00';
+    if (!sd || !ed) return null;
+    const start = new Date(`${sd}T${st}`);
+    const end   = new Date(`${ed}T${et}`);
+    return { start, end, valid: end > start };
+  }
+  function validate() {
+    const r = dateRange();
+    const errEl = document.getElementById('ta-date-err');
+    if (r && !r.valid) errEl.style.display = 'block'; else errEl.style.display = 'none';
+    const ok = taSource != null && taDests.length >= 1 && r && r.valid && srcPatientIdx().length > 0;
+    confirmBtn.disabled = !ok;
+  }
+  ['ta-start-date','ta-start-time','ta-end-date','ta-end-time'].forEach(id =>
+    document.getElementById(id).addEventListener('change', validate));
+
+  /* ── Confirm ── */
+  function fmtRange(start, end) {
+    const o = { month:'short', day:'numeric' };
+    const s = start.toLocaleDateString('en-US', o);
+    const e = end.toLocaleDateString('en-US', o);
+    return `${s} – ${e}`;
+  }
+  confirmBtn.addEventListener('click', () => {
+    const r = dateRange(); if (!r || !r.valid) return;
+    const pats = srcPatientIdx();
+    const srcName = MU_USERS[taSource].name;
+    const label = fmtRange(r.start, r.end);
+
+    // Slice the source's patients across coordinators according to their counts.
+    let cursor = 0;
+    taDests.forEach(destIdx => {
+      const take = taCounts[destIdx] || 0;
+      for (let k = 0; k < take && cursor < pats.length; k++, cursor++) {
+        const gi = pats[cursor];
+        const p = MU_PATIENTS_ALL[gi];
+        window.TEMP_BY_PATIENT[p.name] = {
+          covering: MU_USERS[destIdx].name, source: srcName,
+          start: r.start, end: r.end, range: label,
+        };
+        MU_USERS[destIdx].assigned.add(gi);   // covering PCC now sees the patient
+      }
+    });
+
+    coveredSources.add(taSource);           // overlap prevention
+    applyTempTagsToPatientsPage();
+    if (typeof udRender === 'function' && document.getElementById('page-user-detail')?.style.display !== 'none') {
+      udRender(udIdx);
+    }
+
+    const destNames = taDests.map(d => MU_USERS[d].name).join(', ');
+    showToast(`${pats.length} patient${pats.length===1?'':'s'} from ${srcName} now covered by ${destNames} · ${label}`);
+    closeTA();
+  });
+
+  /* ── TEMP tag application ── */
+  function tempTagHTML() {
+    return '<span class="temp-tag">TEMP</span>';
+  }
+  function applyTempTagsToPatientsPage() {
+    document.querySelectorAll('.pl-name, .tt-patient-name').forEach(el => {
+      const name = el.textContent.replace('TEMP','').trim();
+      const info = window.TEMP_BY_PATIENT[name];
+      if (info && !el.querySelector('.temp-tag')) {
+        el.insertAdjacentHTML('beforeend',
+          ` <span class="temp-tag" title="Temporarily covered by ${info.covering} · ${info.range}">TEMP</span>`);
+      }
+    });
+  }
+  window.applyTempTagsToPatientsPage = applyTempTagsToPatientsPage;
+  window.tempInfoFor = name => window.TEMP_BY_PATIENT[name] || null;
+
+  /* ── Toast ── */
+  let toastTimer = null;
+  function showToast(msg) {
+    toast.innerHTML = `<svg class="ta-toast-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><span>${msg}</span>`;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 4200);
+  }
 })();
 </script>
 </body>
