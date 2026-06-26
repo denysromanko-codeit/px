@@ -6324,17 +6324,25 @@ document.getElementById('breadcrumb-patients').addEventListener('click', e => {
   goToPage('patient-list');
 });
 
+// Parse hash into page key + optional sub-route (e.g. "alerts/a2")
+function parseHash() {
+  const raw = window.location.hash.slice(1);
+  const [page, ...rest] = raw.split('/');
+  return { page: page || 'home', sub: rest.join('/') };
+}
+
+// Apply a hash route (page + sub). Sub-routes are dispatched to page hooks.
+function applyRoute() {
+  const { page, sub } = parseHash();
+  goToPage(pages[page] ? page : 'home', true);
+  if (page === 'alerts' && window.__alertsRoute) window.__alertsRoute(sub);
+}
+
 // Hash-based routing: browser back/forward + direct links
-window.addEventListener('popstate', () => {
-  const key = window.location.hash.slice(1) || 'home';
-  goToPage(key, true);
-});
+window.addEventListener('popstate', applyRoute);
 
 // Initial load: read hash from URL, fall back to home
-(function() {
-  const key = window.location.hash.slice(1);
-  goToPage(pages[key] ? key : 'home', true);
-})();
+applyRoute();
 
 /* ══════════════════════════════════════════════════
    BH DUAL-LAYER CHART
@@ -8268,12 +8276,32 @@ window.TEMP_BY_PATIENT = window.TEMP_BY_PATIENT || {};   // patientName -> {cove
     alSearch = e.target.value.trim().toLowerCase(); renderAll();
   });
 
-  // ── row click → drawer ──
+  // ── row click → drawer (push deep-link hash) ──
   [tbodyA, tbodyE, tbodyX].forEach(tb => tb.addEventListener('click', e => {
     const tr = e.target.closest('.al-row'); if (!tr) return;
     const rec = AL.find(r => r.id === tr.dataset.id); if (!rec) return;
-    if (rec.stage === 'escalation') openEscalation(rec); else openAlert(rec);
+    history.pushState(null, '', '#alerts/' + rec.id);
+    openRecord(rec);
   }));
+
+  // Open the correct drawer for a record + switch to its tab
+  function openRecord(rec) {
+    const stageTab = rec.stage === 'event' ? 'events' : rec.stage === 'escalation' ? 'escalations' : 'alerts';
+    if (alTab !== stageTab) {
+      const tabBtn = document.querySelector(`.al-tab[data-altab="${stageTab}"]`);
+      if (tabBtn) tabBtn.click();
+    }
+    if (rec.stage === 'escalation') openEscalation(rec); else openAlert(rec);
+  }
+
+  // Deep-link handler invoked by the global router for "#alerts/<id>"
+  window.__alertsRoute = function(sub) {
+    if (sub) {
+      const rec = AL.find(r => r.id === sub);
+      if (rec) { openRecord(rec); return; }
+    }
+    if (drawer.classList.contains('open')) closeDrawer(true); // sub empty → ensure closed
+  };
 
   // ════════ ALERT DRAWER ════════
   function openAlert(rec) {
@@ -8567,10 +8595,13 @@ window.TEMP_BY_PATIENT = window.TEMP_BY_PATIENT || {};   // patientName -> {cove
   }
 
   // ── drawer open/close ──
-  function openDrawer() { drawerOv.classList.add('open'); requestAnimationFrame(()=>drawer.classList.add('open')); }
-  function closeDrawer() { drawer.classList.remove('open'); drawerOv.classList.remove('open'); }
-  document.getElementById('al-dr-close').onclick = closeDrawer;
-  drawerOv.onclick = closeDrawer;
+  function openDrawer() { drawerOv.classList.add('open'); drawer.classList.add('open'); }
+  function closeDrawer(fromRoute) {
+    drawer.classList.remove('open'); drawerOv.classList.remove('open');
+    if (!fromRoute && /^alerts\/.+/.test(location.hash.slice(1))) history.pushState(null, '', '#alerts');
+  }
+  document.getElementById('al-dr-close').onclick = () => closeDrawer();
+  drawerOv.onclick = () => closeDrawer();
   document.addEventListener('keydown', e => { if (e.key==='Escape' && drawer.classList.contains('open')) closeDrawer(); });
 
   // ── success story modal ──
@@ -8590,6 +8621,15 @@ window.TEMP_BY_PATIENT = window.TEMP_BY_PATIENT || {};   // patientName -> {cove
   }
 
   renderAll();
+
+  // Handle an initial deep-link (#alerts/<id>) — runs after data is ready,
+  // since the global router fires before this IIFE defines __alertsRoute.
+  (function(){
+    const m = location.hash.slice(1).match(/^alerts\/(.+)$/);
+    if (!m) return;
+    const rec = AL.find(r => r.id === m[1]);
+    if (rec) openRecord(rec);
+  })();
 })();
 </script>
 </body>
