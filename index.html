@@ -2409,6 +2409,333 @@ select.np-input { cursor:pointer; }
 
 /* KPI 6-col */
 .pcc-kpi-6 { grid-template-columns: repeat(6, 1fr); }
+
+/* ══════════════════════════════════════════
+   ALERTS / EVENTS / ESCALATIONS PAGE
+══════════════════════════════════════════ */
+.al-page { padding: 24px 28px; display: flex; flex-direction: column; gap: 16px; flex: 1; min-width: 0; }
+.al-header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.al-title { font-size: 22px; font-weight: 700; color: var(--g900); display: flex; align-items: center; gap: 10px; }
+.al-title-sub { font-size: 13px; color: var(--g500); font-weight: 400; margin-top: 3px; }
+
+/* Tabs */
+.al-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--g200); }
+.al-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px 12px; font-size: 13.5px; font-weight: 600;
+  color: var(--g500); background: none; border: none; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .12s, border-color .12s;
+}
+.al-tab:hover { color: var(--g800); }
+.al-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.al-tab-icon { display: inline-flex; }
+.al-tab-icon svg { width: 15px; height: 15px; }
+.al-tab-count {
+  background: var(--red); color: #fff;
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 99px;
+  min-width: 18px; text-align: center;
+}
+
+/* Card shell wrapping tabs + toolbar + table (matches patient-detail .tabs-card) */
+.al-card-shell {
+  background: #fff; border: 1px solid var(--g200); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow); flex: 1; display: flex; flex-direction: column;
+}
+
+/* Toolbar */
+.al-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 13px 16px; }
+.al-search {
+  display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; max-width: 340px;
+  border: 1px solid var(--g200); border-radius: 8px; padding: 7px 11px; background: #fff;
+}
+.al-search svg { color: var(--g400); flex-shrink: 0; }
+.al-search input { border: none; outline: none; font-size: 13px; color: var(--g800); width: 100%; font-family: inherit; background: transparent; }
+.al-filter-chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px;
+  border: 1px solid var(--g200); border-radius: 8px; background: #fff;
+  font-size: 12.5px; font-weight: 500; color: var(--g600); cursor: pointer; transition: all .12s;
+}
+.al-filter-chip:hover { border-color: var(--g300); color: var(--g900); }
+.al-filter-chip.active { border-color: var(--blue); background: var(--blue-50); color: var(--blue); }
+.al-toolbar-spacer { flex: 1; }
+.al-result-count { font-size: 12px; color: var(--g400); }
+
+/* Table */
+.al-table-wrap { background: #fff; border-top: 1px solid var(--g200); }
+.al-view { display: none; }
+.al-view.active { display: block; }
+.al-table { width: 100%; border-collapse: collapse; background: #fff; }
+.al-table thead th {
+  padding: 10px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--g400); text-align: left;
+  border-bottom: 1px solid var(--g200); background: #fff; white-space: nowrap;
+}
+.al-table thead th.num { text-align: center; }
+.al-row { border-bottom: 1px solid var(--g100); cursor: pointer; position: relative; transition: background .1s; }
+.al-row:last-child { border-bottom: none; }
+.al-row:hover td { background: var(--g50); }
+.al-row td { padding: 13px 16px; font-size: 13px; color: var(--g700); vertical-align: middle; }
+.al-row td.num { text-align: center; }
+/* Left accent bar by status (subtle, no full-row flood) */
+.al-row td:first-child { box-shadow: inset 3px 0 0 transparent; }
+.al-row.s-new      td:first-child { box-shadow: inset 3px 0 0 var(--red); }
+.al-row.s-attempt  td:first-child { box-shadow: inset 3px 0 0 var(--amber); }
+.al-row.s-resolved td:first-child { box-shadow: inset 3px 0 0 var(--green); }
+.al-row.s-escalated td:first-child { box-shadow: inset 3px 0 0 #EA580C; }
+
+.al-pt-name { font-weight: 600; color: var(--g900); font-size: 14px; }
+.al-pt-meta { font-size: 11.5px; color: var(--g400); margin-top: 1px; }
+
+/* Status pills */
+.al-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 99px; font-size: 11.5px; font-weight: 600; white-space: nowrap;
+}
+.al-pill .al-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.al-pill.new      { background: var(--red-50);   color: #DC2626; }
+.al-pill.attempt  { background: var(--amber-50); color: #B45309; }
+.al-pill.contacted{ background: var(--green-50); color: #15803D; }
+.al-pill.failed   { background: #EEF2FF;         color: #4F46E5; }
+.al-pill.no       { background: var(--g100);     color: var(--g600); }
+.al-pill.pending  { background: var(--g100);     color: var(--g600); }
+.al-pill.escalated{ background: #FFF1E6;         color: #C2410C; }
+
+/* Level badge (severity 1-4) */
+.al-level {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px;
+  font-size: 12px; font-weight: 700;
+}
+.al-level.lv1 { background: var(--blue-50);  color: var(--blue); }
+.al-level.lv2 { background: var(--amber-50); color: #B45309; }
+.al-level.lv3 { background: #FFF1E6;         color: #C2410C; }
+.al-level.lv4 { background: var(--red-50);   color: #DC2626; }
+.al-count-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 99px;
+  font-size: 12px; font-weight: 700; background: var(--g100); color: var(--g700);
+}
+.al-count-badge.multi { background: var(--red-50); color: #DC2626; }
+.al-level.neutral { background: var(--g100); color: var(--g600); }
+.al-num { font-size: 13px; font-weight: 600; color: var(--g700); }
+
+.al-huh-link { color: var(--blue); display: inline-flex; }
+.al-huh-link svg { width: 15px; height: 15px; }
+.al-escto {
+  display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px;
+  font-size: 11.5px; font-weight: 600; white-space: nowrap;
+}
+.al-escto.partner { background: var(--purple-50); color: #7C3AED; }
+.al-escto.alf     { background: var(--amber-50);  color: #B45309; }
+.al-escto.care    { background: var(--teal-50);   color: var(--teal); }
+.al-dash { color: var(--g300); }
+.al-hh-check { color: var(--green); }
+
+/* Empty state */
+.al-empty { padding: 56px 20px; text-align: center; color: var(--g400); }
+.al-empty svg { width: 38px; height: 38px; color: var(--g300); margin-bottom: 10px; }
+.al-empty-title { font-size: 14px; font-weight: 600; color: var(--g600); margin-bottom: 3px; }
+.al-empty-sub { font-size: 12.5px; }
+
+/* ── Right-side drawer ── */
+.al-drawer-overlay {
+  position: fixed; inset: 0; background: rgba(17,24,39,.4);
+  z-index: 9998; display: none; animation: np-fade-in .15s ease;
+}
+.al-drawer-overlay.open { display: block; }
+.al-drawer {
+  position: fixed; top: 0; right: 0; height: 100vh; width: 580px; max-width: calc(100vw - 40px);
+  background: #fff; z-index: 9999; display: flex; flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0,0,0,.16); transform: translateX(100%);
+  transition: transform .26s cubic-bezier(.16,1,.3,1);
+}
+.al-drawer.open { transform: translateX(0); }
+.al-dr-header { padding: 18px 22px; border-bottom: 1px solid var(--g100); display: flex; align-items: flex-start; gap: 12px; }
+.al-dr-titlewrap { flex: 1; min-width: 0; }
+.al-dr-eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--g400); display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.al-dr-title { font-size: 18px; font-weight: 700; color: var(--g900); }
+.al-dr-huh { font-size: 12px; font-weight: 600; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; text-decoration: none; margin-top: 5px; }
+.al-dr-huh svg { width: 12px; height: 12px; }
+.al-dr-close {
+  width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--g100);
+  color: var(--g500); font-size: 17px; line-height: 1; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; transition: background .12s, color .12s;
+}
+.al-dr-close:hover { background: var(--g200); color: var(--g900); }
+.al-dr-body { padding: 20px 22px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 18px; }
+.al-dr-footer {
+  padding: 14px 22px; border-top: 1px solid var(--g100);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+
+/* Drawer sections */
+.al-sec { display: flex; flex-direction: column; gap: 9px; }
+.al-sec-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--g400); }
+.al-sec.step .al-sec-lbl { display: flex; align-items: center; gap: 8px; }
+.al-step-num {
+  width: 20px; height: 20px; border-radius: 50%; background: var(--g900); color: #fff;
+  font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.al-sec.locked { opacity: .5; pointer-events: none; }
+.al-sec.locked .al-step-num { background: var(--g300); }
+
+/* Alert info card (list of alert rows) */
+.al-alertcard { border: 1px solid var(--g100); border-radius: 10px; overflow: hidden; }
+.al-alertcard-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 11px 13px; border-bottom: 1px solid var(--g100); }
+.al-alertcard-row:last-child { border-bottom: none; }
+.al-alertcard-type { font-size: 12.5px; font-weight: 600; color: var(--g900); }
+.al-alertcard-notes { font-size: 12px; color: var(--g500); grid-column: 1; line-height: 1.45; }
+.al-alertcard-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.al-alertcard-time { font-size: 11px; color: var(--g400); white-space: nowrap; }
+
+/* Read-only info grid */
+.al-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.al-info-cell { display: flex; flex-direction: column; gap: 2px; }
+.al-info-k { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--g400); }
+.al-info-v { font-size: 13px; color: var(--g800); font-weight: 500; }
+.al-readbox { font-size: 12.5px; color: var(--g700); background: var(--g50); border: 1px solid var(--g100); border-radius: 8px; padding: 10px 12px; line-height: 1.5; }
+
+/* Form fields in drawer */
+.al-field { display: flex; flex-direction: column; gap: 5px; }
+.al-field > label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--g600); }
+.al-input, .al-select, .al-textarea {
+  border: 1.5px solid var(--g200); border-radius: 8px; padding: 8px 11px;
+  font-size: 13px; color: var(--g800); background: #fff; outline: none;
+  font-family: inherit; width: 100%; box-sizing: border-box; transition: border-color .12s, box-shadow .12s;
+}
+.al-input:focus, .al-select:focus, .al-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+.al-textarea { resize: vertical; min-height: 64px; line-height: 1.5; }
+select.al-select { cursor: pointer; appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+.al-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.al-check { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--g700); cursor: pointer; }
+.al-check input { width: 15px; height: 15px; accent-color: var(--blue); cursor: pointer; }
+
+/* Choice segmented (radio-like) for Contacted? */
+.al-choices { display: flex; gap: 8px; flex-wrap: wrap; }
+.al-choice {
+  flex: 1; min-width: 92px; padding: 10px 12px; border: 1.5px solid var(--g200); border-radius: 9px;
+  background: #fff; cursor: pointer; text-align: center; transition: all .12s;
+  font-size: 12.5px; font-weight: 600; color: var(--g600);
+}
+.al-choice:hover { border-color: var(--g300); }
+.al-choice.sel { border-color: var(--blue); background: var(--blue-50); color: var(--blue); }
+.al-choice .al-choice-hint { display: block; font-size: 10.5px; font-weight: 400; color: var(--g400); margin-top: 2px; }
+.al-choice.sel .al-choice-hint { color: var(--blue); opacity: .8; }
+
+/* Attempt log */
+.al-attempt-panel { border: 1px solid var(--g100); border-radius: 10px; padding: 13px; display: flex; flex-direction: column; gap: 11px; background: var(--g50); }
+.al-attempt-log { border: 1px solid var(--g100); border-radius: 8px; background: #fff; overflow: hidden; }
+.al-attempt-log-row { display: grid; grid-template-columns: auto 78px 1fr; gap: 10px; padding: 9px 11px; border-bottom: 1px solid var(--g100); font-size: 12px; }
+.al-attempt-log-row:last-child { border-bottom: none; }
+.al-attempt-log-row.head { font-weight: 700; color: var(--g500); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; background: var(--g50); }
+.al-attempt-date { color: var(--g700); font-weight: 500; white-space: nowrap; }
+.al-attempt-type { color: var(--g600); }
+.al-attempt-note { color: var(--g500); }
+.al-attempt-empty { padding: 18px; text-align: center; font-size: 12px; color: var(--g400); }
+
+/* Resolution banner */
+.al-resolve-banner {
+  display: flex; align-items: flex-start; gap: 9px; padding: 11px 13px; border-radius: 9px;
+  font-size: 12.5px; line-height: 1.45;
+}
+.al-resolve-banner svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+.al-resolve-banner.event   { background: var(--green-50); color: #15803D; }
+.al-resolve-banner.escalate{ background: #FFF1E6; color: #C2410C; }
+.al-resolve-banner.cleared { background: var(--g100); color: var(--g600); }
+
+/* Drawer buttons */
+.al-btn-primary, .al-btn-ghost, .al-btn-dark {
+  padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+  border: none; font-family: inherit; transition: background .12s, opacity .12s;
+}
+.al-btn-primary { background: var(--blue); color: #fff; }
+.al-btn-primary:hover { background: var(--blue-700); }
+.al-btn-primary:disabled { background: var(--g200); color: var(--g400); cursor: not-allowed; }
+.al-btn-ghost { background: #fff; color: var(--g600); border: 1px solid var(--g200); }
+.al-btn-ghost:hover { background: var(--g50); }
+.al-btn-dark { background: var(--g800); color: #fff; }
+.al-btn-dark:hover { background: var(--g900); }
+.al-btn-sm { padding: 7px 13px; font-size: 12.5px; }
+
+/* ── Drawer v2: structured hierarchy ── */
+.al-dr-body { padding: 18px 20px 24px; gap: 18px; }
+.al-sec-head { display: flex; align-items: center; gap: 8px; }
+.al-sec-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--g500); }
+.al-sec-count { margin-left: auto; font-size: 11px; color: var(--g400); font-weight: 500; }
+
+/* Patient summary strip */
+.al-psum { display: flex; background: var(--g50); border: 1px solid var(--g100); border-radius: 11px; overflow: hidden; }
+.al-psum-cell { flex: 1; padding: 11px 14px; border-right: 1px solid var(--g100); min-width: 0; }
+.al-psum-cell:last-child { border-right: none; }
+.al-psum-k { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--g400); margin-bottom: 4px; }
+.al-psum-v { font-size: 13px; font-weight: 600; color: var(--g900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Alert detail table (labeled) */
+.al-adt { border: 1px solid var(--g200); border-radius: 11px; overflow: hidden; }
+.al-adt-head {
+  display: grid; grid-template-columns: 1fr 92px 50px; gap: 12px; padding: 9px 14px;
+  background: var(--g50); border-bottom: 1px solid var(--g200);
+}
+.al-adt-head span { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--g400); }
+.al-adt-head span.r { text-align: right; }
+.al-adt-row {
+  display: grid; grid-template-columns: 1fr 92px 50px; gap: 4px 12px; padding: 12px 14px;
+  border-bottom: 1px solid var(--g100); align-items: start;
+  grid-template-areas: "type time level" "note note note";
+}
+.al-adt-row:last-child { border-bottom: none; }
+.al-adt-type { grid-area: type; font-size: 13px; font-weight: 600; color: var(--g900); }
+.al-adt-time { grid-area: time; font-size: 12px; color: var(--g500); }
+.al-adt-level { grid-area: level; text-align: right; }
+.al-adt-note { grid-area: note; font-size: 12px; color: var(--g500); line-height: 1.5; }
+
+/* Work card — highlighted action area */
+.al-workcard {
+  background: #fff; border: 1px solid var(--g200); border-radius: 12px; padding: 16px;
+  display: flex; flex-direction: column; gap: 15px; box-shadow: var(--shadow-sm);
+}
+.al-workcard.accent { border-color: var(--blue-100); }
+.al-work-divider { height: 1px; background: var(--g100); margin: 1px 0; }
+.al-decision-lbl { font-size: 12.5px; font-weight: 700; color: var(--g900); }
+
+/* Read-only definition rows inside a muted block */
+.al-mutedbox { background: var(--g50); border: 1px solid var(--g100); border-radius: 11px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+
+/* Radio rows (match Retool radios) */
+.al-radios { display: flex; gap: 8px; flex-wrap: wrap; }
+.al-radio {
+  display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; cursor: pointer;
+  font-size: 13px; font-weight: 500; color: var(--g700);
+  border: 1.5px solid var(--g200); border-radius: 8px; background: #fff; transition: all .12s;
+}
+.al-radio:hover { border-color: var(--g300); }
+.al-radio.sel { border-color: var(--blue); background: var(--blue-50); color: var(--blue); }
+.al-radio .al-radio-mark { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--g300); flex-shrink: 0; position: relative; }
+.al-radio.sel .al-radio-mark { border-color: var(--blue); }
+.al-radio.sel .al-radio-mark::after { content: ''; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--blue); }
+
+/* Attempt panel polish */
+.al-attempt-panel { background: #fff; border: 1px solid var(--g200); }
+
+/* Alert detail — emphasized by severity */
+.al-sec-title.hot { display: inline-flex; align-items: center; gap: 6px; color: var(--g800); }
+.al-sec-ic { width: 14px; height: 14px; flex-shrink: 0; }
+.al-adt.sev1 { border-color: var(--blue-100); box-shadow: inset 3px 0 0 var(--blue); }
+.al-adt.sev1 .al-adt-head { background: var(--blue-50); }
+.al-adt.sev2 { border-color: #FDE68A; box-shadow: inset 3px 0 0 var(--amber); }
+.al-adt.sev2 .al-adt-head { background: var(--amber-50); }
+.al-adt.sev3 { border-color: #FED7AA; box-shadow: inset 3px 0 0 #EA580C; }
+.al-adt.sev3 .al-adt-head { background: #FFF1E6; }
+.al-adt.sev4 { border-color: #FCA5A5; box-shadow: inset 3px 0 0 var(--red); }
+.al-adt.sev4 .al-adt-head { background: var(--red-50); }
+
+/* Input with leading icon (date fields) */
+.al-input-icon { position: relative; }
+.al-input-icon > svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--g400); pointer-events: none; }
+.al-input-icon .al-input { padding-left: 33px; }
 </style>
 </head>
 <body>
@@ -2495,13 +2822,13 @@ select.np-input { cursor:pointer; }
       Bulk Upload
     </button>
 
-    <button class="nav-item">
+    <button class="nav-item" data-page="alerts">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
         <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
       </svg>
       Alerts
-      <span class="nav-badge">3</span>
+      <span class="nav-badge" id="nav-badge-alerts">3</span>
     </button>
 
     <button class="nav-item" data-page="settings">
@@ -5289,7 +5616,116 @@ select.np-input { cursor:pointer; }
   </div>
   </div><!-- /page-user-detail -->
 
+  <!-- ═══════════ ALERTS / EVENTS / ESCALATIONS ═══════════ -->
+  <div id="page-alerts" style="display:none;">
+  <div class="al-page">
+
+    <div class="al-header-row">
+      <div>
+        <h1 class="al-title">Patient Monitoring</h1>
+        <div class="al-title-sub">RPM device deviations triaged through to resolution</div>
+      </div>
+    </div>
+
+    <!-- Card shell: tabs + toolbar + table -->
+    <div class="al-card-shell">
+    <!-- Tabs -->
+    <div class="al-tabs">
+      <button class="al-tab active" data-altab="alerts">
+        Alerts <span class="al-tab-count" id="al-count-alerts">0</span>
+      </button>
+      <button class="al-tab" data-altab="events">
+        Events <span class="al-tab-count" id="al-count-events">0</span>
+      </button>
+      <button class="al-tab danger" data-altab="escalations">
+        Escalations <span class="al-tab-count" id="al-count-escalations">0</span>
+      </button>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="al-toolbar">
+      <div class="al-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="al-search-input" placeholder="Search patients…">
+      </div>
+      <div id="al-filters-alerts" class="al-filter-group" style="display:flex;gap:8px;">
+        <button class="al-filter-chip active" data-alfilter="all">All</button>
+        <button class="al-filter-chip" data-alfilter="new">New</button>
+        <button class="al-filter-chip" data-alfilter="attempting">In progress</button>
+      </div>
+      <div class="al-toolbar-spacer"></div>
+      <span class="al-result-count" id="al-result-count">0 results</span>
+    </div>
+
+    <!-- Tables -->
+    <div class="al-table-wrap">
+      <!-- ALERTS -->
+      <div class="al-view active" id="al-view-alerts">
+        <table class="al-table">
+          <thead><tr>
+            <th>Patient</th><th>Alert date</th><th class="num">Count</th>
+            <th class="num">Highest level</th><th>Status</th><th class="num">HUH</th>
+          </tr></thead>
+          <tbody id="al-tbody-alerts"></tbody>
+        </table>
+      </div>
+      <!-- EVENTS -->
+      <div class="al-view" id="al-view-events">
+        <table class="al-table">
+          <thead><tr>
+            <th>Patient</th><th>Deviation date</th><th>Patient contacted</th>
+            <th>Action taken</th><th>Escalated</th>
+          </tr></thead>
+          <tbody id="al-tbody-events"></tbody>
+        </table>
+      </div>
+      <!-- ESCALATIONS -->
+      <div class="al-view" id="al-view-escalations">
+        <table class="al-table">
+          <thead><tr>
+            <th>Patient</th><th class="num">On HH</th><th>Escalated to</th>
+            <th>Status</th><th>Escalated date</th><th>Deviation date</th>
+          </tr></thead>
+          <tbody id="al-tbody-escalations"></tbody>
+        </table>
+      </div>
+    </div>
+    </div><!-- /al-card-shell -->
+
+  </div>
+  </div><!-- /page-alerts -->
+
 </main>
+
+<!-- ═══════════ ALERT DETAIL DRAWER ═══════════ -->
+<div class="al-drawer-overlay" id="al-drawer-overlay"></div>
+<div class="al-drawer" id="al-drawer" role="dialog" aria-modal="true">
+  <div class="al-dr-header">
+    <div class="al-dr-titlewrap">
+      <div class="al-dr-eyebrow" id="al-dr-eyebrow">Alert</div>
+      <div class="al-dr-title" id="al-dr-title">Patient</div>
+      <a class="al-dr-huh" href="#" onclick="return false;">HUH Time Logs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+    </div>
+    <button class="al-dr-close" id="al-dr-close" aria-label="Close">✕</button>
+  </div>
+  <div class="al-dr-body" id="al-dr-body"><!-- rendered by JS --></div>
+  <div class="al-dr-footer" id="al-dr-footer"><!-- rendered by JS --></div>
+</div>
+
+<!-- ═══════════ SUCCESS STORY MODAL ═══════════ -->
+<div id="al-ss-overlay" class="np-overlay" style="display:none;" role="dialog" aria-modal="true">
+  <div class="np-modal" style="width:480px;">
+    <div class="np-header"><div class="np-header-left"><h2 class="np-title">Submit Success Story</h2></div><button class="np-close" id="al-ss-close">✕</button></div>
+    <div class="np-divider" style="margin-top:16px;"></div>
+    <div class="np-body">
+      <textarea class="al-textarea" id="al-ss-text" placeholder="Enter success story…" style="min-height:120px;"></textarea>
+    </div>
+    <div class="np-footer" style="display:flex;justify-content:flex-end;padding:14px 24px;border-top:1px solid var(--g100);">
+      <button class="al-btn-primary" id="al-ss-submit">Submit Success Story</button>
+    </div>
+  </div>
+</div>
+<div id="al-toast" class="ta-toast"></div>
 
 <!-- ═══════════════════════════════════════
      NEW PATIENT MODAL — 3-step wizard
@@ -5843,7 +6279,8 @@ const pages = {
   'bulk-upload':      document.getElementById('page-bulk-upload'),
   'manage-partners':  document.getElementById('page-manage-partners'),
   'partner-detail':   document.getElementById('page-partner-detail'),
-  'user-detail':      document.getElementById('page-user-detail')
+  'user-detail':      document.getElementById('page-user-detail'),
+  'alerts':           document.getElementById('page-alerts')
 };
 const navBtns = document.querySelectorAll('[data-page]');
 
@@ -7615,6 +8052,544 @@ window.TEMP_BY_PATIENT = window.TEMP_BY_PATIENT || {};   // patientName -> {cove
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('show'), 4200);
   }
+})();
+
+/* ══════════════════════════════════════════════════
+   ALERTS / EVENTS / ESCALATIONS
+══════════════════════════════════════════════════ */
+(function(){
+  const TODAY = 'Jun 25, 2026';
+  // ── Seed data: one pipeline, three stages (alert → event / escalation) ──
+  const mkAlert = (type, notes, level, time) => ({type, notes, level, time});
+  let AL = [
+    // ── ALERTS (stage: alert) ──
+    {id:'a1', patient:'Beverley J Clare', dob:'Aug 30, 1929', pcc:'Abigaile Egnew', devDate:'Jun 24, 2026', viewed:false, stage:'alert',
+      alerts:[mkAlert('RHR — Above Baseline','RHR of 71.0 is a 22.4% up from 14-day baseline of 58.0',2,'Jun 24, 2026')],
+      pccNotes:'', contacted:null, attempts:[]},
+    {id:'a2', patient:'Jessica Ellis', dob:'Jun 7, 1981', pcc:'Virginia Ruiz', devDate:'Jun 24, 2026', viewed:false, stage:'alert',
+      alerts:[mkAlert('RHR — Above Baseline','RHR of 67.8 is a 23.9% up from 14-day baseline of 54.7',2,'Jun 24, 2026'),
+              mkAlert('Respiratory Rate — Deviation','RR of 11.9 is a 17.3% up from 14-day baseline of 10.1',1,'Jun 24, 2026')],
+      pccNotes:'', contacted:null, attempts:[]},
+    {id:'a3', patient:'Phillip J Toler', dob:'Feb 29, 1948', pcc:'Abigaile Egnew', devDate:'Jun 24, 2026', viewed:false, stage:'alert',
+      alerts:[mkAlert('RHR — Below Baseline',"Last night's resting heart rate decreased by 16.6% (52.5 vs 62.9)",1,'Jun 24, 2026')],
+      pccNotes:'', contacted:null, attempts:[]},
+    {id:'a4', patient:'Cori Phillips', dob:'Mar 14, 1955', pcc:'Maria Lopez', devDate:'Jun 24, 2026', viewed:false, stage:'alert',
+      alerts:[mkAlert('SpO2 — Below Baseline','SpO2 dropped to 91% from a 14-day baseline of 96%',4,'Jun 24, 2026'),
+              mkAlert('RHR — Above Baseline','RHR of 88 is 28% above baseline of 68',3,'Jun 24, 2026')],
+      pccNotes:'', contacted:null, attempts:[]},
+    {id:'a5', patient:'Beverley Clare', dob:'Oct 2, 1944', pcc:'Abigaile Egnew', devDate:'Jun 24, 2026', viewed:true, stage:'alert',
+      alerts:[mkAlert('RHR — Above Baseline','RHR of 74 is 19% above baseline',2,'Jun 24, 2026')],
+      pccNotes:'Reviewed telemetry, attempting contact.', contacted:'attempting',
+      attempts:[{date:'Jun 24, 2026 5:37 PM', type:'Voicemail', notes:'Attempted to call Beverley, left a voicemail.'}]},
+    {id:'a6', patient:'Octavia Jackson', dob:'Jul 19, 1939', pcc:'Dana Cole', devDate:'Jun 24, 2026', viewed:true, stage:'alert',
+      alerts:[mkAlert('Respiratory Rate — Deviation','RR of 18 is 25% above baseline of 14.4',2,'Jun 24, 2026'),
+              mkAlert('RHR — Above Baseline','RHR up 14% over baseline',1,'Jun 24, 2026')],
+      pccNotes:'Texted patient, awaiting reply.', contacted:'attempting',
+      attempts:[{date:'Jun 24, 2026 2:10 PM', type:'Text', notes:'Sent check-in text message.'}]},
+    {id:'a7', patient:'Harriett Arreola', dob:'Dec 5, 1951', pcc:'Dana Cole', devDate:'Jun 24, 2026', viewed:false, stage:'alert',
+      alerts:[mkAlert('RHR — Above Baseline','RHR of 79 is 21% above baseline',2,'Jun 24, 2026')],
+      pccNotes:'', contacted:null, attempts:[]},
+    {id:'a8', patient:'Robert Bateman', dob:'Apr 8, 1947', pcc:'Maria Lopez', devDate:'Jun 23, 2026', viewed:false, stage:'alert',
+      alerts:[mkAlert('RHR — Below Baseline','RHR decreased 18% overnight',1,'Jun 23, 2026')],
+      pccNotes:'', contacted:null, attempts:[]},
+
+    // ── EVENTS (stage: event) ──
+    {id:'e1', patient:'Joseph Kimball', dob:'Jan 3, 1942', pcc:'Abigaile Egnew', devDate:'Jun 23, 2026', viewed:true, stage:'event',
+      alerts:[mkAlert('RHR — Above Baseline','RHR of 70 is 15% above baseline',1,'Jun 23, 2026')],
+      pccNotes:'Spoke with patient, resolved on call.', contacted:'yes', hospitalized:'no', actionTaken:'ongoing', escalatedTo:null, attempts:[]},
+    {id:'e2', patient:'Betty Poulsen', dob:'May 22, 1950', pcc:'Dana Cole', devDate:'Jun 18, 2026', viewed:true, stage:'event',
+      alerts:[mkAlert('Respiratory Rate — Deviation','RR 16% above baseline',1,'Jun 18, 2026')],
+      pccNotes:'Patient confirmed feeling well.', contacted:'yes', hospitalized:'no', actionTaken:'checkin', escalatedTo:null, attempts:[]},
+    {id:'e3', patient:'Maria Morrey', dob:'Nov 11, 1937', pcc:'Virginia Ruiz', devDate:'Jun 17, 2026', viewed:true, stage:'event',
+      alerts:[mkAlert('RHR — Below Baseline','RHR below baseline',1,'Jun 17, 2026')],
+      pccNotes:'Contacted, no concerns.', contacted:'yes', hospitalized:'na', actionTaken:'ongoing', escalatedTo:null, attempts:[]},
+    {id:'e4', patient:'Veda Anderson', dob:'Feb 14, 1946', pcc:'Maria Lopez', devDate:'Jun 15, 2026', viewed:true, stage:'event',
+      alerts:[mkAlert('RHR — Above Baseline','RHR elevated',1,'Jun 15, 2026')],
+      pccNotes:'Unable to reach after 2 attempts.', contacted:'failed', actionTaken:null, escalatedTo:null,
+      attempts:[{date:'Jun 15, 2026 10:00 AM',type:'Voicemail',notes:'Left voicemail.'},{date:'Jun 15, 2026 3:00 PM',type:'Text',notes:'No reply.'}]},
+    {id:'e5', patient:'Naomi Fairchild', dob:'Sep 30, 1953', pcc:'Dana Cole', devDate:'Jun 12, 2026', viewed:true, stage:'event',
+      alerts:[mkAlert('Respiratory Rate — Deviation','RR deviation',1,'Jun 12, 2026')],
+      pccNotes:'Resolved on call.', contacted:'yes', hospitalized:'no', actionTaken:'ongoing', escalatedTo:null, attempts:[]},
+
+    // ── ESCALATIONS (stage: escalation) ──
+    {id:'x1', patient:'Cheryl Debrossard', dob:'Mar 5, 1940', pcc:'Abigaile Egnew', devDate:'Nov 6, 2025', viewed:false, stage:'escalation',
+      alerts:[mkAlert('RHR — Above Baseline','Sustained elevated RHR',3,'Nov 6, 2025')], contacted:'yes', actionTaken:'escalate',
+      onHH:'No', hhCompany:'', hhSOC:'', escalatedTo:'partner', escalatedDate:'Nov 6, 2025', escStatus:3,
+      escNotes:'I called Cheryl Debrossard to introduce myself as Abby with Proactive Health, the…',
+      receivedCare:'yes', dateOfCare:'', visitType:'ER', satisfied:'na', careDesc:'Went to the ER, she then was sent home.', currentStatus:'baseline', nextAction:null},
+    {id:'x2', patient:'Venda Wilkins', dob:'Jul 8, 1943', pcc:'Abigaile Egnew', devDate:'Feb 4, 2026', viewed:true, stage:'escalation',
+      alerts:[mkAlert('SpO2 — Below Baseline','SpO2 declining trend',1,'Feb 4, 2026')], contacted:'yes', actionTaken:'escalate',
+      onHH:'Yes', hhCompany:'Elmwood Senior Living', hhSOC:'', escalatedTo:'alf', escalatedDate:'Feb 4, 2026', escStatus:1,
+      escNotes:"I received an alert and identified deviations in Venda Wilkins' vital signs last…",
+      receivedCare:'yes', dateOfCare:'Feb 5, 2026', visitType:'Other', satisfied:'yes', careDesc:"The DON made the patient's PCP aware of the deviation and the PCP has reviewed the information.", currentStatus:'improving', nextAction:'monitor'},
+    {id:'x3', patient:'Norma Fleischacker', dob:'Dec 1, 1948', pcc:'Abigaile Egnew', devDate:'Feb 10, 2026', viewed:false, stage:'escalation',
+      alerts:[mkAlert('RHR — Above Baseline','Elevated RHR',1,'Feb 10, 2026')], contacted:'yes', actionTaken:'escalate',
+      onHH:'Yes', hhCompany:'Partner Health', hhSOC:'', escalatedTo:'partner', escalatedDate:'Feb 11, 2026', escStatus:'Unaddressed',
+      escNotes:'Escalated to partner for follow-up.', receivedCare:'pending', dateOfCare:'', visitType:'', satisfied:'na', careDesc:'', currentStatus:'', nextAction:null},
+    {id:'x4', patient:'Anh Phuong', dob:'Jun 19, 1945', pcc:'Maria Lopez', devDate:'Feb 21, 2026', viewed:false, stage:'escalation',
+      alerts:[mkAlert('Respiratory Rate — Deviation','RR sustained high',1,'Feb 21, 2026')], contacted:'yes', actionTaken:'escalate',
+      onHH:'Yes', hhCompany:'Assisted Living Co', hhSOC:'', escalatedTo:'alf', escalatedDate:'Mar 22, 2026', escStatus:'Unaddressed',
+      escNotes:'Escalated to Assisted Living Facility.', receivedCare:'pending', dateOfCare:'', visitType:'', satisfied:'na', careDesc:'', currentStatus:'', nextAction:null},
+    {id:'x5', patient:'Thomas Crawford', dob:'Aug 17, 1938', pcc:'Dana Cole', devDate:'Jan 22, 2026', viewed:true, stage:'escalation',
+      alerts:[mkAlert('RHR — Above Baseline','Elevated RHR',1,'Jan 22, 2026')], contacted:'yes', actionTaken:'escalate',
+      onHH:'Yes', hhCompany:'Care Team Health', hhSOC:'', escalatedTo:'partner', escalatedDate:'Jan 22, 2026', escStatus:1,
+      escNotes:'Escalated to partner.', receivedCare:'yes', dateOfCare:'Jan 25, 2026', visitType:'PCP', satisfied:'yes', careDesc:'PCP reviewed and adjusted plan.', currentStatus:'improving', nextAction:'monitor'},
+  ];
+
+  // ── derived helpers ──
+  const count = r => r.alerts.length;
+  const highest = r => Math.max(...r.alerts.map(a => a.level));
+  const initials = n => n.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  const alStatus = r => (!r.viewed && !r.contacted) ? 'new' : 'attempting';
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  const CONTACTED_LABEL = {yes:'Yes', no:'No', attempting:'Attempting', failed:'Attempt Failed'};
+  const ACTION_LABEL = {ongoing:'Ongoing Care', checkin:'Patient Check In', escalate:'Escalated'};
+  const ESCTO = {partner:{cls:'partner',txt:'Partner'}, alf:{cls:'alf',txt:'Assisted Living Facility'}, care:{cls:'care',txt:'Care Team'}};
+
+  // ── state ──
+  let alTab = 'alerts';
+  let alFilter = 'all';
+  let alSearch = '';
+  let alCurrent = null;   // record being edited in drawer
+  let draft = null;       // working copy
+
+  // ── elements ──
+  const tbodyA = document.getElementById('al-tbody-alerts');
+  const tbodyE = document.getElementById('al-tbody-events');
+  const tbodyX = document.getElementById('al-tbody-escalations');
+  const drawer = document.getElementById('al-drawer');
+  const drawerOv = document.getElementById('al-drawer-overlay');
+  const drBody = document.getElementById('al-dr-body');
+  const drFooter = document.getElementById('al-dr-footer');
+
+  function visible(stage) {
+    let rows = AL.filter(r => r.stage === stage);
+    if (alSearch) rows = rows.filter(r => r.patient.toLowerCase().includes(alSearch));
+    if (stage === 'alert' && alFilter !== 'all') {
+      rows = rows.filter(r => alFilter === 'new' ? alStatus(r)==='new' : alStatus(r)==='attempting');
+    }
+    return rows;
+  }
+
+  // ── render tables ──
+  function renderAll() {
+    const A = AL.filter(r=>r.stage==='alert'), E = AL.filter(r=>r.stage==='event'), X = AL.filter(r=>r.stage==='escalation');
+    document.getElementById('al-count-alerts').textContent = A.length;
+    document.getElementById('al-count-events').textContent = E.length;
+    document.getElementById('al-count-escalations').textContent = X.length;
+    const nb = document.getElementById('nav-badge-alerts');
+    const newCount = A.filter(r=>alStatus(r)==='new').length;
+    if (nb) { nb.textContent = newCount; nb.style.display = newCount? '' : 'none'; }
+    renderAlerts(); renderEvents(); renderEscalations();
+    updateResultCount();
+  }
+
+  function renderAlerts() {
+    const rows = visible('alert');
+    tbodyA.innerHTML = rows.length ? rows.map(r => {
+      const st = alStatus(r), c = count(r), hl = highest(r);
+      const pill = st==='new'
+        ? `<span class="al-pill new"><span class="al-pill-dot"></span>New</span>`
+        : `<span class="al-pill attempt"><span class="al-pill-dot"></span>${r.contacted==='attempting'?'Attempting':'In progress'}</span>`;
+      return `<tr class="al-row s-${st==='new'?'new':'attempt'}" data-id="${r.id}">
+        <td><div class="al-pt-name">${esc(r.patient)}</div><div class="al-pt-meta">DOB ${esc(r.dob)} · ${esc(r.pcc)}</div></td>
+        <td>${esc(r.devDate)}</td>
+        <td class="num"><span class="al-num">${c}</span></td>
+        <td class="num">${hl>=4?`<span class="al-level lv4">${hl}</span>`:hl===3?`<span class="al-level lv3">${hl}</span>`:`<span class="al-num">${hl}</span>`}</td>
+        <td>${pill}</td>
+        <td class="num"><span class="al-huh-link" title="HUH Time Logs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></td>
+      </tr>`;
+    }).join('') : emptyRow(6, 'No active alerts', 'Device deviations needing attention will appear here.');
+  }
+
+  function renderEvents() {
+    const rows = visible('event');
+    tbodyE.innerHTML = rows.length ? rows.map(r => {
+      const cl = r.contacted==='yes'?'contacted':r.contacted==='failed'?'failed':r.contacted==='no'?'no':'pending';
+      const cLbl = CONTACTED_LABEL[r.contacted] || 'Pending';
+      const action = r.actionTaken ? ACTION_LABEL[r.actionTaken] : '<span class="al-dash">—</span>';
+      return `<tr class="al-row s-resolved" data-id="${r.id}">
+        <td><div class="al-pt-name">${esc(r.patient)}</div><div class="al-pt-meta">DOB ${esc(r.dob)} · ${esc(r.pcc)}</div></td>
+        <td>${esc(r.devDate)}</td>
+        <td><span class="al-pill ${cl}">${cLbl}</span></td>
+        <td>${action}</td>
+        <td><span class="al-dash">—</span></td>
+      </tr>`;
+    }).join('') : emptyRow(5, 'No events yet', 'Resolved alerts move here automatically.');
+  }
+
+  function renderEscalations() {
+    const rows = visible('escalation');
+    tbodyX.innerHTML = rows.length ? rows.map(r => {
+      const e = ESCTO[r.escalatedTo] || {cls:'',txt:'—'};
+      const stat = r.escStatus==='Unaddressed' ? `<span class="al-pill pending">Unaddressed</span>` : `<span class="al-count-badge">${r.escStatus}</span>`;
+      return `<tr class="al-row s-escalated" data-id="${r.id}">
+        <td><div class="al-pt-name">${esc(r.patient)}</div><div class="al-pt-meta">${esc(r.pcc)}</div></td>
+        <td class="num">${r.onHH==='Yes'?'<span class="al-hh-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></span>':'<span class="al-dash">—</span>'}</td>
+        <td><span class="al-escto ${e.cls}">${e.txt}</span></td>
+        <td>${stat}</td>
+        <td>${esc(r.escalatedDate||'—')}</td>
+        <td>${esc(r.devDate)}</td>
+      </tr>`;
+    }).join('') : emptyRow(6, 'No escalations', 'Cases requiring urgent attention appear here.');
+  }
+
+  function emptyRow(cols, title, sub) {
+    return `<tr><td colspan="${cols}"><div class="al-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div class="al-empty-title">${title}</div><div class="al-empty-sub">${sub}</div></div></td></tr>`;
+  }
+
+  function updateResultCount() {
+    const stage = alTab==='alerts'?'alert':alTab==='events'?'event':'escalation';
+    document.getElementById('al-result-count').textContent = visible(stage).length + ' results';
+  }
+
+  // ── tabs ──
+  document.querySelectorAll('.al-tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.al-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    alTab = t.dataset.altab;
+    document.querySelectorAll('.al-view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('al-view-'+alTab).classList.add('active');
+    document.getElementById('al-filters-alerts').style.display = alTab==='alerts' ? 'flex' : 'none';
+    updateResultCount();
+  }));
+
+  // ── filters ──
+  document.querySelectorAll('#al-filters-alerts .al-filter-chip').forEach(c => c.addEventListener('click', () => {
+    document.querySelectorAll('#al-filters-alerts .al-filter-chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active'); alFilter = c.dataset.alfilter; renderAlerts(); updateResultCount();
+  }));
+
+  // ── search ──
+  document.getElementById('al-search-input').addEventListener('input', e => {
+    alSearch = e.target.value.trim().toLowerCase(); renderAll();
+  });
+
+  // ── row click → drawer ──
+  [tbodyA, tbodyE, tbodyX].forEach(tb => tb.addEventListener('click', e => {
+    const tr = e.target.closest('.al-row'); if (!tr) return;
+    const rec = AL.find(r => r.id === tr.dataset.id); if (!rec) return;
+    if (rec.stage === 'escalation') openEscalation(rec); else openAlert(rec);
+  }));
+
+  // ════════ ALERT DRAWER ════════
+  function openAlert(rec) {
+    alCurrent = rec;
+    draft = JSON.parse(JSON.stringify(rec));
+    if (!rec.viewed) { rec.viewed = true; renderAll(); }
+    const hl = highest(rec);
+    document.getElementById('al-dr-eyebrow').innerHTML = `Alert · ${esc(rec.devDate)} <span class="al-level lv${hl}" style="height:18px;min-width:18px;">Lv ${hl}</span>`;
+    document.getElementById('al-dr-title').textContent = rec.patient;
+    renderAlertBody();
+    drFooter.innerHTML = `<button class="al-btn-dark" id="al-add-ss">Add Success Story</button>
+      <button class="al-btn-primary" id="al-save-alert">Save Alert</button>`;
+    document.getElementById('al-add-ss').onclick = openSuccessStory;
+    document.getElementById('al-save-alert').onclick = saveAlert;
+    openDrawer();
+  }
+
+  function syncDraft() {
+    const g = id => drBody.querySelector(id);
+    if (g('#al-pname'))     draft.patient = g('#al-pname').value;
+    if (g('#al-pcc'))       draft.pcc = g('#al-pcc').value;
+    if (g('#al-dob'))       draft.dob = g('#al-dob').value;
+    if (g('#al-devdate'))   draft.devDate = g('#al-devdate').value;
+    if (g('#al-devdetail')) draft.deviationDetail = g('#al-devdetail').value;
+    if (g('#al-pcc-notes')) draft.pccNotes = g('#al-pcc-notes').value;
+    if (g('#al-timelog'))   draft.timeLogCreated = g('#al-timelog').checked;
+    if (g('#al-contacted')) draft.contacted = g('#al-contacted').value || null;
+    if (g('#al-hosp'))      draft.hospitalized = g('#al-hosp').value || null;
+    if (g('#al-hospname'))  draft.hospital = g('#al-hospname').value;
+    if (g('#al-action'))    draft.actionTaken = g('#al-action').value || null;
+    if (g('#al-escto'))     draft.escalatedTo = g('#al-escto').value || null;
+  }
+
+  function renderAlertBody() {
+    const r = draft;
+    const hl = highest(r);
+    const CAL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+
+    // 1 ── Alert detail (emphasized, on top)
+    const adt = `<div class="al-sec">
+      <div class="al-sec-head">
+        <span class="al-sec-title hot"><svg class="al-sec-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Alert detail</span>
+        <span class="al-sec-count">${r.alerts.length} ${r.alerts.length>1?'alerts':'alert'} · highest level ${hl}</span>
+      </div>
+      <div class="al-adt sev${hl}">
+        <div class="al-adt-head"><span>Alert type</span><span>Alert time</span><span class="r">Level</span></div>
+        ${r.alerts.map(a=>`<div class="al-adt-row">
+          <div class="al-adt-type">${esc(a.type)}</div>
+          <div class="al-adt-time">${esc(a.time)}</div>
+          <div class="al-adt-level"><span class="al-level lv${a.level}">${a.level}</span></div>
+          <div class="al-adt-note">${esc(a.notes)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+    // 2 ── Patient information (editable)
+    const patient = `<div class="al-sec">
+      <div class="al-sec-head"><span class="al-sec-title">Patient information</span></div>
+      <div class="al-row2">
+        <div class="al-field"><label>Patient name</label><input class="al-input" id="al-pname" value="${esc(r.patient)}"></div>
+        <div class="al-field"><label>PCC</label><input class="al-input" id="al-pcc" value="${esc(r.pcc)}"></div>
+      </div>
+      <div class="al-row2" style="margin-top:12px;">
+        <div class="al-field"><label>Patient DOB</label><div class="al-input-icon">${CAL}<input class="al-input" id="al-dob" value="${esc(r.dob)}"></div></div>
+        <div class="al-field"><label>Deviation date</label><div class="al-input-icon">${CAL}<input class="al-input" id="al-devdate" value="${esc(r.devDate)}"></div></div>
+      </div>
+    </div>`;
+
+    // 3 ── Deviation detail (editable)
+    const devVal = (r.deviationDetail != null ? r.deviationDetail : r.alerts.map(a=>a.notes).join('\n'));
+    const devDetail = `<div class="al-sec">
+      <div class="al-sec-head"><span class="al-sec-title">Deviation detail</span></div>
+      <textarea class="al-textarea" id="al-devdetail" placeholder="Add deviation details…">${esc(devVal)}</textarea>
+    </div>`;
+
+    // 4 ── Work card (PCC notes + triage)
+    let conditional = '';
+    if (r.contacted === 'attempting') {
+      conditional = `<div class="al-work-divider"></div>
+        <div class="al-decision-lbl">Log contact attempt</div>
+        <div class="al-attempt-panel">
+          <div class="al-row2">
+            <div class="al-field"><label>Attempt date &amp; time</label><input class="al-input" id="al-att-date" value="${TODAY} 2:55 PM"></div>
+            <div class="al-field"><label>Attempt type</label>
+              <select class="al-select" id="al-att-type"><option value="">Select an option</option><option>Text</option><option>Voicemail</option><option>Email</option></select>
+            </div>
+          </div>
+          <div class="al-field"><label>Attempt notes</label><input class="al-input" id="al-att-notes" placeholder="Enter value"></div>
+          <button class="al-btn-primary al-btn-sm" id="al-save-attempt" style="align-self:flex-start;">Save Attempt</button>
+        </div>
+        <div class="al-field"><label>Logged attempts</label>
+          <div class="al-attempt-log">
+            <div class="al-attempt-log-row head"><span>Date</span><span>Type</span><span>Notes</span></div>
+            ${r.attempts.length ? r.attempts.map(a=>`<div class="al-attempt-log-row"><span class="al-attempt-date">${esc(a.date)}</span><span class="al-attempt-type">${esc(a.type)}</span><span class="al-attempt-note">${esc(a.notes)}</span></div>`).join('') : '<div class="al-attempt-empty">No attempts logged yet</div>'}
+          </div>
+        </div>
+        <div class="al-resolve-banner cleared"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Stays in the queue (amber) until the patient responds or you mark the final outcome.</div>`;
+    } else if (r.contacted === 'yes') {
+      conditional = `<div class="al-work-divider"></div>
+        <div class="al-decision-lbl">Outcome</div>
+        <div class="al-row2">
+          <div class="al-field"><label>Was the patient hospitalized?</label>
+            <select class="al-select" id="al-hosp"><option value="">Select an option</option>
+              <option value="yes" ${r.hospitalized==='yes'?'selected':''}>Yes</option>
+              <option value="no" ${r.hospitalized==='no'?'selected':''}>No</option>
+              <option value="na" ${r.hospitalized==='na'?'selected':''}>N/A</option></select></div>
+          <div class="al-field"><label>What hospital?</label><input class="al-input" id="al-hospname" placeholder="Enter value" value="${esc(r.hospital||'')}" ${r.hospitalized==='yes'?'':'disabled style=opacity:.5'}></div>
+        </div>
+        <div class="al-field"><label>Action taken</label>
+          <select class="al-select" id="al-action"><option value="">Select an option</option>
+            <option value="ongoing" ${r.actionTaken==='ongoing'?'selected':''}>Ongoing Care — resolved in call/conversation</option>
+            <option value="checkin" ${r.actionTaken==='checkin'?'selected':''}>Patient Check In — follow-up needed</option>
+            <option value="escalate" ${r.actionTaken==='escalate'?'selected':''}>Escalate — needs urgent attention</option></select></div>
+        ${r.actionTaken==='escalate' ? `<div class="al-field"><label>Escalate to</label>
+          <select class="al-select" id="al-escto"><option value="">Select an option</option>
+            <option value="alf" ${r.escalatedTo==='alf'?'selected':''}>Assisted Living Facility</option>
+            <option value="care" ${r.escalatedTo==='care'?'selected':''}>Care Team</option>
+            <option value="partner" ${r.escalatedTo==='partner'?'selected':''}>Partner</option></select></div>
+          <div class="al-resolve-banner escalate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>On save this becomes an <b>Escalation</b> and moves to the Escalations tab for a Teamlead.</div>`
+        : (r.actionTaken==='ongoing'||r.actionTaken==='checkin') ? `<div class="al-resolve-banner event"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>On save this alert is resolved and moves to the <b>Events</b> tab.</div>` : ''}`;
+    } else if (r.contacted === 'no' || r.contacted === 'failed') {
+      conditional = `<div class="al-resolve-banner cleared"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>On save the alert is cleared and moves to the <b>Events</b> tab as “${CONTACTED_LABEL[r.contacted]}”.</div>`;
+    }
+
+    const work = `<div class="al-sec">
+      <div class="al-sec-head"><span class="al-step-num">1</span><span class="al-sec-title">Triage &amp; outcome</span></div>
+      <div class="al-workcard accent">
+        <div class="al-field">
+          <label>PCC Notes <span style="font-weight:400;text-transform:none;color:var(--g400);letter-spacing:0;">(copy/paste HUH time log)</span></label>
+          <textarea class="al-textarea" id="al-pcc-notes" placeholder="Enter notes…">${esc(r.pccNotes||'')}</textarea>
+          <label class="al-check" style="margin-top:2px;"><input type="checkbox" id="al-timelog" ${r.timeLogCreated?'checked':''}> Time Log Created</label>
+        </div>
+        <div class="al-work-divider"></div>
+        <div class="al-field"><label>Was the patient contacted?</label>
+          <select class="al-select" id="al-contacted"><option value="">Select an option</option>
+            <option value="yes" ${r.contacted==='yes'?'selected':''}>Yes</option>
+            <option value="no" ${r.contacted==='no'?'selected':''}>No</option>
+            <option value="attempting" ${r.contacted==='attempting'?'selected':''}>Attempting</option>
+            <option value="failed" ${r.contacted==='failed'?'selected':''}>Attempt Failed</option></select>
+        </div>
+        ${conditional}
+      </div>
+    </div>`;
+
+    drBody.innerHTML = adt + patient + devDetail + work;
+
+    // wire
+    const cs = drBody.querySelector('#al-contacted');
+    if (cs) cs.addEventListener('change', () => { syncDraft(); draft.contacted = cs.value || null; renderAlertBody(); });
+    const att = drBody.querySelector('#al-save-attempt');
+    if (att) att.addEventListener('click', () => {
+      const type = drBody.querySelector('#al-att-type').value;
+      const d = drBody.querySelector('#al-att-date').value;
+      const notes = drBody.querySelector('#al-att-notes').value;
+      if (!type) { showToast('Select an attempt type'); return; }
+      syncDraft(); draft.attempts.push({date:d, type, notes: notes||'—'}); renderAlertBody();
+    });
+    const hosp = drBody.querySelector('#al-hosp');
+    if (hosp) hosp.addEventListener('change', () => { syncDraft(); renderAlertBody(); });
+    const act = drBody.querySelector('#al-action');
+    if (act) act.addEventListener('change', () => { syncDraft(); renderAlertBody(); });
+  }
+
+  function saveAlert() {
+    syncDraft();
+    const r = draft;
+    if (r.contacted === 'no' || r.contacted === 'failed') {
+      r.stage = 'event'; r.actionTaken = null;
+    } else if (r.contacted === 'yes' && (r.actionTaken === 'ongoing' || r.actionTaken === 'checkin')) {
+      r.stage = 'event';
+    } else if (r.contacted === 'yes' && r.actionTaken === 'escalate') {
+      if (!r.escalatedTo) { showToast('Select where to escalate'); return; }
+      r.stage = 'escalation'; r.escalatedDate = TODAY; r.escStatus = 'Unaddressed';
+      r.escNotes = r.pccNotes || 'Escalated from alert.'; r.onHH = r.onHH || 'No';
+      r.receivedCare = 'pending';
+    } else {
+      r.stage = 'alert'; // attempting / unresolved — stays
+    }
+    Object.assign(alCurrent, r);
+    renderAll(); closeDrawer();
+    showToast(alCurrent.stage==='escalation' ? 'Escalation created' : alCurrent.stage==='event' ? 'Alert resolved → moved to Events' : 'Alert saved');
+  }
+
+  // ════════ ESCALATION DRAWER ════════
+  function openEscalation(rec) {
+    alCurrent = rec; draft = JSON.parse(JSON.stringify(rec));
+    if (!rec.viewed) { rec.viewed = true; }
+    document.getElementById('al-dr-eyebrow').innerHTML = `Escalation · ${esc(rec.escalatedDate||rec.devDate)}`;
+    document.getElementById('al-dr-title').textContent = rec.patient;
+    renderEscalationBody();
+    drFooter.innerHTML = `<button class="al-btn-dark" id="al-add-ss">Add Success Story</button>
+      <button class="al-btn-primary" id="al-save-esc">Submit</button>`;
+    document.getElementById('al-add-ss').onclick = openSuccessStory;
+    document.getElementById('al-save-esc').onclick = saveEscalation;
+    openDrawer();
+  }
+
+  function renderEscalationBody() {
+    const r = draft;
+    const e = ESCTO[r.escalatedTo] || {cls:'',txt:'—'};
+
+    // 1 ── Patient summary strip
+    const psum = `<div class="al-psum">
+      <div class="al-psum-cell"><div class="al-psum-k">PCC</div><div class="al-psum-v">${esc(r.pcc)}</div></div>
+      <div class="al-psum-cell"><div class="al-psum-k">Date of deviation</div><div class="al-psum-v">${esc(r.devDate)}</div></div>
+      <div class="al-psum-cell"><div class="al-psum-k">Escalated to</div><div class="al-psum-v"><span class="al-escto ${e.cls}" style="font-size:11px;padding:2px 8px;">${e.txt}</span></div></div>
+    </div>`;
+
+    // 2 ── PCC escalation notes
+    const notes = `<div class="al-sec">
+      <div class="al-sec-head"><span class="al-sec-title">PCC escalation notes</span></div>
+      <div class="al-readbox">${esc(r.escNotes||'—')}</div>
+    </div>`;
+
+    // 3 ── Home health (read-only block)
+    const hh = `<div class="al-sec">
+      <div class="al-sec-head"><span class="al-sec-title">Home health</span></div>
+      <div class="al-psum">
+        <div class="al-psum-cell"><div class="al-psum-k">On HH?</div><div class="al-psum-v">${esc(r.onHH||'—')}</div></div>
+        <div class="al-psum-cell"><div class="al-psum-k">HH company</div><div class="al-psum-v">${esc(r.hhCompany||'—')}</div></div>
+        <div class="al-psum-cell"><div class="al-psum-k">HH SOC</div><div class="al-psum-v">${esc(r.hhSOC||'—')}</div></div>
+        <div class="al-psum-cell"><div class="al-psum-k">Date escalated</div><div class="al-psum-v">${esc(r.escalatedDate||'—')}</div></div>
+      </div>
+    </div>`;
+
+    // 4 ── Resolution work card
+    const resolution = `<div class="al-sec">
+      <div class="al-sec-head"><span class="al-step-num">✓</span><span class="al-sec-title">Resolution</span></div>
+      <div class="al-workcard accent">
+        <div class="al-field"><label>Did the patient receive care?</label>
+          <div class="al-radios">
+            <label class="al-radio ${r.receivedCare==='yes'?'sel':''}" data-care="yes"><span class="al-radio-mark"></span>Yes</label>
+            <label class="al-radio ${r.receivedCare==='no'?'sel':''}" data-care="no"><span class="al-radio-mark"></span>No</label>
+            <label class="al-radio ${r.receivedCare==='pending'?'sel':''}" data-care="pending"><span class="al-radio-mark"></span>Pending</label>
+          </div>
+        </div>
+        <div class="al-row2">
+          <div class="al-field"><label>Date of care</label><input class="al-input" id="al-doc" placeholder="MMM D, YYYY" value="${esc(r.dateOfCare||'')}"></div>
+          <div class="al-field"><label>Did the patient visit</label>
+            <select class="al-select" id="al-visit"><option value="">Select an option</option>
+              ${['ER','PCP','Urgent Care','Other'].map(o=>`<option ${r.visitType===o?'selected':''}>${o}</option>`).join('')}</select></div>
+        </div>
+        <div class="al-field"><label>Description of care received</label><textarea class="al-textarea" id="al-caredesc" placeholder="Enter value">${esc(r.careDesc||'')}</textarea></div>
+        <div class="al-work-divider"></div>
+        <div class="al-row2">
+          <div class="al-field"><label>Patient's current status</label>
+            <select class="al-select" id="al-status"><option value="">Select an option</option>
+              <option value="baseline" ${r.currentStatus==='baseline'?'selected':''}>Returned to Baseline</option>
+              <option value="improving" ${r.currentStatus==='improving'?'selected':''}>Improving</option>
+              <option value="declining" ${r.currentStatus==='declining'?'selected':''}>Declining</option>
+              <option value="none" ${r.currentStatus==='none'?'selected':''}>No Improvement</option></select></div>
+          <div class="al-field"><label>Next action</label>
+            <select class="al-select" id="al-next"><option value="">Select an option</option>
+              <option value="monitor" ${r.nextAction==='monitor'?'selected':''}>Continue to Monitor</option>
+              <option value="reescalate" ${r.nextAction==='reescalate'?'selected':''}>Re-escalate</option></select></div>
+        </div>
+        <div class="al-field"><label>Was the patient satisfied?</label>
+          <div class="al-radios">
+            <label class="al-radio ${r.satisfied==='yes'?'sel':''}" data-sat="yes"><span class="al-radio-mark"></span>Yes</label>
+            <label class="al-radio ${r.satisfied==='no'?'sel':''}" data-sat="no"><span class="al-radio-mark"></span>No</label>
+            <label class="al-radio ${r.satisfied==='na'?'sel':''}" data-sat="na"><span class="al-radio-mark"></span>N/A</label>
+          </div>
+        </div>
+        ${r.nextAction==='reescalate' ? `<div class="al-resolve-banner escalate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>On submit this is re-escalated and stays in the queue.</div>` : ''}
+      </div>
+    </div>`;
+
+    drBody.innerHTML = psum + notes + hh + resolution;
+    drBody.querySelectorAll('[data-care]').forEach(b=>b.onclick=()=>{ syncEscDraft(); draft.receivedCare=b.dataset.care; renderEscalationBody(); });
+    drBody.querySelectorAll('[data-sat]').forEach(b=>b.onclick=()=>{ syncEscDraft(); draft.satisfied=b.dataset.sat; renderEscalationBody(); });
+    const nx = drBody.querySelector('#al-next');
+    if (nx) nx.addEventListener('change', () => { syncEscDraft(); renderEscalationBody(); });
+  }
+
+  function syncEscDraft() {
+    const g = id => drBody.querySelector(id);
+    if (g('#al-doc')) draft.dateOfCare = g('#al-doc').value;
+    if (g('#al-visit')) draft.visitType = g('#al-visit').value;
+    if (g('#al-caredesc')) draft.careDesc = g('#al-caredesc').value;
+    if (g('#al-status')) draft.currentStatus = g('#al-status').value;
+    if (g('#al-next')) draft.nextAction = g('#al-next').value;
+  }
+
+  function saveEscalation() {
+    syncEscDraft();
+    if (draft.nextAction === 'reescalate') { draft.escStatus = 'Unaddressed'; }
+    else if (draft.receivedCare === 'yes') { draft.escStatus = 1; }
+    Object.assign(alCurrent, draft);
+    renderAll(); closeDrawer();
+    showToast(draft.nextAction==='reescalate' ? 'Re-escalated' : 'Escalation updated');
+  }
+
+  // ── drawer open/close ──
+  function openDrawer() { drawerOv.classList.add('open'); requestAnimationFrame(()=>drawer.classList.add('open')); }
+  function closeDrawer() { drawer.classList.remove('open'); drawerOv.classList.remove('open'); }
+  document.getElementById('al-dr-close').onclick = closeDrawer;
+  drawerOv.onclick = closeDrawer;
+  document.addEventListener('keydown', e => { if (e.key==='Escape' && drawer.classList.contains('open')) closeDrawer(); });
+
+  // ── success story modal ──
+  const ssOv = document.getElementById('al-ss-overlay');
+  function openSuccessStory() { document.getElementById('al-ss-text').value=''; ssOv.style.display='flex'; }
+  document.getElementById('al-ss-close').onclick = () => ssOv.style.display='none';
+  document.getElementById('al-ss-submit').onclick = () => { ssOv.style.display='none'; showToast('Success story submitted to Teamlead'); };
+  ssOv.addEventListener('click', e => { if (e.target===ssOv) ssOv.style.display='none'; });
+
+  // ── toast (reuse ta-toast element) ──
+  const toast = document.getElementById('al-toast');
+  let tTimer = null;
+  function showToast(msg) {
+    toast.innerHTML = `<svg class="ta-toast-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><span>${esc(msg)}</span>`;
+    toast.classList.add('show'); clearTimeout(tTimer);
+    tTimer = setTimeout(()=>toast.classList.remove('show'), 3600);
+  }
+
+  renderAll();
 })();
 </script>
 </body>
